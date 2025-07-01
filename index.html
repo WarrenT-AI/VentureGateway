@@ -1,0 +1,1787 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- MODIFIED: Title updated to reflect new branding and vision -->
+    <title>WarrenT AI: 多Agent构建的出海投融资生态网络</title> 
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- START OF COMMON STYLES & LANDING PAGE CSS (UNCHANGED) --- */
+        :root {
+            --primary-color: #8A2BE2; 
+            --secondary-color: #4A90E2; 
+            --text-color: #EAEAEA;
+            --bg-dark: #1A1226; 
+            --bg-card: #2B1F3D; 
+            --bg-section-alt: #221830; 
+            --bg-sidebar: #221830; 
+            --border-color: rgba(255,255,255,0.1); 
+            --font-primary: 'Roboto', 'Noto Sans SC', sans-serif; 
+            --font-headings: 'Noto Sans SC', 'Roboto', sans-serif;
+            --success-color: #2ecc71;
+        }
+        body {
+            font-family: var(--font-primary); margin: 0; padding: 0;
+            background-color: var(--bg-dark); color: var(--text-color);
+            line-height: 1.7; font-size: 16px;
+        }
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 20px 0; }
+        .navbar {
+            background-color: rgba(26, 18, 38, 0.85); backdrop-filter: blur(10px);
+            padding: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .navbar .logo-text { font-size: 1.9em; font-weight: 700; color: var(--text-color); font-family: var(--font-headings); text-decoration: none; }
+        .navbar nav a {
+            color: var(--text-color); text-decoration: none; margin-left: 20px;
+            font-weight: 500; transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            padding-bottom: 5px; border-bottom: 2px solid transparent;
+        }
+        .navbar nav a:hover, .navbar nav a.active { color: var(--secondary-color); border-bottom-color: var(--secondary-color); }
+        .navbar .auth-buttons a {
+            margin-left: 15px; padding: 8px 18px; border-radius: 20px;
+            text-decoration: none; font-weight: 500; font-size: 0.9em;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+        .navbar .auth-buttons .btn-login { color: var(--secondary-color); border: 1px solid var(--secondary-color); }
+        .navbar .auth-buttons .btn-login:hover { background-color: var(--secondary-color); color: white; transform: translateY(-1px); }
+        .navbar .auth-buttons .btn-register { background-color: var(--secondary-color); color: white; border: 1px solid var(--secondary-color); }
+        .navbar .auth-buttons .btn-register:hover { background-color: #3a7bc8; border-color: #3a7bc8; transform: translateY(-1px); }
+        .hero {
+            background: linear-gradient(rgba(26,18,38,0.9), rgba(50,35,75,0.9)), url('https://images.unsplash.com/photo-1522071820081-009f0129c7da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80') no-repeat center center/cover;
+            padding: 90px 0 70px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero h1 { font-size: 2.8em; margin-bottom: 15px; font-weight: 700; color: var(--text-color); font-family: var(--font-headings); text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .hero .subtitle { font-size: 1.25em; margin-bottom: 20px; opacity: 0.9; max-width: 750px; margin-left: auto; margin-right: auto; font-weight: 300; }
+        .hero .target-regions { font-size: 1em; color: var(--text-color); opacity: 0.8; margin-bottom: 30px; font-style: italic; }
+        .btn {
+            display: inline-block; background-color: var(--secondary-color); color: white;
+            padding: 14px 35px; text-decoration: none; border-radius: 25px;
+            font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1.1em; box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3); border:none; cursor:pointer;
+        }
+        .btn:hover { background-color: #3a7bc8; transform: translateY(-2px); }
+        .btn-outline { background-color: transparent; border: 2px solid var(--secondary-color); color: var(--secondary-color); }
+        .btn-outline:hover { background-color: var(--secondary-color); color: white; }
+        .section { padding: 70px 0; }
+        .section-title { text-align: center; font-size: 2.3em; color: var(--text-color); margin-bottom: 20px; font-family: var(--font-headings); font-weight: 700; }
+        .section-subtitle { text-align: center; font-size: 1.1em; color: var(--text-color); opacity: 0.8; margin-bottom: 50px; max-width: 750px; margin-left: auto; margin-right: auto; }
+        .grid-container { display: grid; gap: 30px; }
+        .card {
+            background-color: var(--bg-card); padding: 30px 25px; border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease;
+            border-left: 4px solid var(--secondary-color);
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        .card .icon { font-size: 2.5em; color: var(--secondary-color); margin-bottom: 20px; text-align: center; }
+        .card .card-content-wrapper { flex-grow: 1; } 
+        .card h3 {
+            font-size: 1.4em; color: var(--text-color); margin-bottom: 15px;
+            font-family: var(--font-headings); font-weight: 500; text-align: center;
+            min-height: 2.8em; display: flex; align-items: center; justify-content: center;
+        }
+        .card p { font-size: 0.95em; color: var(--text-color); opacity: 0.85; margin-bottom: 15px;}
+        .card ul { list-style: none; padding-left: 0; margin-top: 15px; }
+        .card ul li { margin-bottom: 10px; padding-left: 20px; position: relative; font-size: 0.9em; color: var(--text-color); opacity: 0.8; }
+        .card ul li::before { content: '•'; color: var(--secondary-color); position: absolute; left: 0; font-weight: bold;}
+        .service-tag { font-size: 0.8em; font-weight: bold; display: inline-block; padding: 4px 10px; border-radius: 15px; margin-top: 15px; text-align: center; align-self: center; }
+        .ai-service { background-color: rgba(74, 144, 226, 0.15); color: var(--secondary-color); border: 1px solid var(--secondary-color); }
+        .human-service { background-color: rgba(138, 43, 226, 0.15); color: var(--primary-color); border: 1px solid var(--primary-color); }
+        .paid-feature { font-size: 0.85em; color: var(--secondary-color); font-weight: bold; display: block; margin-top: 12px; text-align: center; }
+        .grid-container-3-col { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+        #pricing .grid-container { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));}
+        .pricing-tier .price { font-size: 1.8em; font-weight: bold; color: var(--text-color); margin: 10px 0 20px; }
+        .pricing-tier .price span { font-size: 0.7em; color: var(--text-color); opacity: 0.7;}
+        #how-it-works .simplified-flow-container { display: flex; justify-content: space-around; align-items: flex-start; gap: 20px; max-width: 900px; margin: 40px auto 0 auto; padding: 20px 0; }
+        .flow-step { text-align: center; flex: 1; max-width: 280px; }
+        .flow-step .step-icon {
+            width: 70px; height: 70px; background-color: var(--bg-card); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px auto; border: 3px solid var(--secondary-color);
+            font-size: 2em; color: var(--secondary-color); box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .flow-step h4 { font-size: 1.2em; color: var(--text-color); margin-bottom: 8px; font-family: var(--font-headings); font-weight: 500; }
+        .flow-step p { font-size: 0.9em; color: var(--text-color); opacity: 0.8; line-height: 1.5; }
+        .contact-section { text-align: center; padding-bottom: 50px; }
+        .contact-section p { font-size: 1.1em; margin-bottom: 20px; }
+        .contact-section .email-link { font-size: 1.3em; color: var(--secondary-color); text-decoration: none; font-weight: 500; border-bottom: 1px dashed var(--secondary-color); transition: color 0.3s, border-bottom-color 0.3s; }
+        .contact-section .email-link:hover { color: var(--text-color); border-bottom-color: var(--text-color); }
+        footer { background-color: #120c1c; color: var(--text-color); opacity: 0.7; text-align: center; padding: 30px 0; font-size: 0.9em; }
+        footer a { color: var(--secondary-color); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        .icon-bp::before { content: "📝"; }
+        .icon-register-step::before { content: "🚀"; } .icon-tools-step::before { content: "🛠️"; }
+        .icon-connect-step::before { content: "🎯"; }
+        .for-whom-card { text-align: center; }
+        .for-whom-card .icon { font-size: 3.5em; margin-bottom: 10px;}
+        .for-whom-card h3 { font-size: 1.6em; margin-bottom:10px; min-height: auto;}
+        /* --- END OF LANDING PAGE CSS --- */
+
+        /* --- START OF DASHBOARD COMMON STYLES (UNCHANGED) --- */
+        #enterpriseDashboardWrapper, #investorDashboardWrapper {
+            display: flex; min-height: 100vh; font-family: var(--font-primary);
+            background-color: var(--bg-dark); color: var(--text-color);
+        }
+        .sidebar { 
+            width: 260px; background-color: var(--bg-sidebar); padding: 25px 0;
+            display: flex; flex-direction: column; border-right: 1px solid var(--border-color);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2); position:fixed; height:100%; z-index:100;
+        }
+        .sidebar .logo-area { text-align: center; margin-bottom: 30px; padding: 0 20px;}
+        .sidebar .logo-text { font-size: 1.8em; font-weight: 700; color: var(--text-color); font-family: var(--font-headings); text-decoration: none; }
+        .sidebar nav ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar nav li a {
+            display: flex; align-items: center; padding: 15px 25px;
+            color: var(--text-color); opacity: 0.8; text-decoration: none;
+            font-size: 1em; font-weight: 500; border-left: 3px solid transparent;
+            transition: background-color 0.2s ease, opacity 0.2s ease, border-left-color 0.2s ease;
+        }
+        .sidebar nav li a .icon { margin-right: 15px; font-size: 1.2em; width: 20px; text-align: center;}
+        .sidebar nav li a:hover, .sidebar nav li a.active { background-color: rgba(74, 144, 226, 0.1); opacity: 1; color: var(--secondary-color); border-left-color: var(--secondary-color); }
+        .sidebar .user-profile-sidebar { margin-top: auto; padding: 20px 25px; border-top: 1px solid var(--border-color); font-size: 0.9em; }
+        .sidebar .user-profile-sidebar a { color: var(--secondary-color); text-decoration: none;}
+        .main-content { flex-grow: 1; padding: 0; overflow-y: auto; margin-left:260px;}
+        .top-header { 
+            background-color: var(--bg-card); padding: 15px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .top-header h1 { font-size: 1.6em; color: var(--text-color); margin: 0; font-family: var(--font-headings); }
+        .top-header .user-actions {display:flex; align-items:center; gap:15px;}
+        .top-header .user-actions a { color: var(--text-color); opacity: 0.8; text-decoration: none; font-size: 1.3em; }
+        .top-header .user-actions a:hover { opacity: 1; color: var(--secondary-color); }
+        .top-header .user-actions span { font-size:0.9em; opacity:0.8;}
+        .content-wrapper { padding: 30px; }
+        .btn-primary { 
+            display: inline-block; background-color: var(--secondary-color); color: white;
+            padding: 10px 20px; text-decoration: none; border-radius: 20px;
+            font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, opacity 0.3s ease;
+            font-size: 0.95em; box-shadow: 0 3px 10px rgba(74, 144, 226, 0.25);
+            border:none; cursor:pointer; position: relative;
+        }
+        .btn-primary:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .btn-primary:hover { background-color: #3a7bc8; transform: translateY(-1px); }
+        .btn-primary.btn-outline { background-color: transparent; border: 1px solid var(--secondary-color); color: var(--secondary-color); padding:9px 19px;}
+        .btn-primary.btn-outline:hover { background-color: var(--secondary-color); color:white;}
+        .onboarding-prompt { 
+            background-color: var(--bg-card); padding: 20px; border-radius: 8px; 
+            margin-bottom: 25px; border-left: 4px solid var(--primary-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: opacity 0.5s ease, transform 0.5s ease, height 0.5s ease;
+            overflow: hidden;
+        }
+        .onboarding-prompt.hidden {
+            opacity: 0;
+            transform: scaleY(0);
+            height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+        .onboarding-prompt p { margin:0; font-size:0.95em; line-height: 1.6;}
+        .onboarding-prompt strong {color: var(--secondary-color);}
+        .onboarding-prompt a { color:var(--secondary-color); text-decoration:underline; font-weight:bold; margin-left:10px;}
+        .hamburger-icon { display: none !important; }
+        .dashboard-section-title-bar {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        .dashboard-section-title-bar h2 { margin: 0; font-family:var(--font-headings); font-weight:500; font-size:1.5em; }
+        .dashboard-section-title-bar p { opacity:0.8; font-size:0.95em; margin-top:5px; }
+        /* --- END OF DASHBOARD COMMON STYLES --- */
+
+        /* --- FORM STYLING (UNCHANGED) --- */
+        fieldset {
+            border: 1px solid var(--border-color); padding: 15px 20px;
+            border-radius: 8px; margin-bottom: 25px;
+        }
+        legend { color: var(--secondary-color); font-weight: 500; padding: 0 10px; font-size: 1.1em; font-family: var(--font-headings); }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 0.9em; font-weight: 500; opacity: 0.9; }
+        .form-group input[type="text"], .form-group input[type="url"], .form-group input[type="email"], .form-group input[type="password"],
+        .form-group textarea, .form-group select {
+            width: 100%; padding: 10px 12px; border-radius: 5px; border: 1px solid var(--border-color);
+            background-color: var(--bg-dark); color: var(--text-color); font-size: 0.95em; box-sizing: border-box;
+        }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .form-group input[type="file"] { color: var(--text-color); opacity: 0.8; font-size: 0.9em; padding: 5px 0; }
+        .form-group .checkbox-group { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+        .form-group .checkbox-group span, .form-group .checkbox-group > input[type="checkbox"] + label { display: flex; align-items: center; font-size: 0.9em; }
+        .form-group .checkbox-group input[type="checkbox"] { margin-right: 6px; accent-color: var(--secondary-color); transform: scale(1.1); }
+        .form-group .checkbox-group label { margin-bottom: 0; font-weight: normal; opacity: 0.85; }
+        .btn-sm { padding: 8px 15px !important; font-size: 0.85em !important; border-radius: 15px !important; }
+        .form-feedback {
+            font-size: 0.9em;
+            color: var(--success-color);
+            font-weight: 500;
+            margin-left: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        /* --- END OF FORM STYLING --- */
+
+        /* --- TABLE & TAB STYLING (UNCHANGED) --- */
+        .table-classic { width:100%; border-collapse: collapse; font-size: 0.9em; }
+        .table-classic th, .table-classic td { padding: 12px 15px; border: 1px solid var(--border-color); text-align: left; vertical-align: middle; }
+        .table-classic th { background-color: rgba(255,255,255,0.05); font-weight: 500; }
+        .table-classic tr { transition: background-color 0.2s ease; }
+        .table-classic tr.new-row { background-color: rgba(74, 144, 226, 0.2); }
+        .link-action { color: var(--secondary-color); text-decoration: none; font-weight: 500; margin: 0 5px; }
+        .link-action:hover { text-decoration: underline; }
+        .tabs-container {
+            display: flex; gap: 5px; margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tab-button {
+            padding: 10px 18px; background-color: transparent; border: none;
+            border-bottom: 3px solid transparent; color: var(--text-color); opacity: 0.7;
+            cursor: pointer; font-size: 1em; font-weight: 500;
+            transition: opacity 0.2s, border-bottom-color 0.2s;
+        }
+        .tab-button:hover { opacity: 1; }
+        .tab-button.active { opacity: 1; color: var(--secondary-color); border-bottom-color: var(--secondary-color); }
+        .tab-content { display: none; margin-top: 10px; }
+        .tab-content.active { display: block; }
+        /* --- END OF TABLE & TAB STYLING --- */
+
+        /* --- START OF DASHBOARD SPECIFIC STYLES (UNCHANGED) --- */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .dashboard-card { 
+            background-color: var(--bg-card); padding: 25px; border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-left: 4px solid var(--primary-color);
+            display: flex; flex-direction: column;
+        }
+        .report-list li { 
+            padding: 8px 15px; border-bottom: 1px solid var(--border-color);
+            font-size: 0.9em; opacity:0.9; display:flex; justify-content:space-between; align-items:center;
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+        }
+        .report-list li.new-item {
+            background-color: rgba(74, 144, 226, 0.15);
+        }
+        .report-list li:last-child { border-bottom: none; }
+        .report-list a { color: var(--secondary-color); text-decoration: none;}
+        .report-list a:hover { text-decoration: underline; }
+        .report-list .date { font-size:0.8em; opacity:0.7;}
+        .filter-bar {
+            background-color: var(--bg-card); padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            display: flex; flex-wrap: wrap; gap: 15px; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .filter-bar input[type="text"], .filter-bar select {
+            padding: 10px 12px; border-radius: 5px; border: 1px solid var(--border-color);
+            background-color: var(--bg-dark); color: var(--text-color); min-width: 160px; font-size:0.9em;
+        }
+        .filter-bar button { margin-left: auto; } 
+        .project-list-container, .investor-list-container { 
+             display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 25px; 
+        }
+        .project-card { 
+            background-color: var(--bg-card); padding: 20px 25px; border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-left: 4px solid var(--primary-color);
+            display:flex; flex-direction:column;
+        }
+        .project-card.fading-out {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        .project-card h3 { font-size: 1.25em; margin-top: 0; margin-bottom: 12px; font-family: var(--font-headings); }
+        .project-card p { font-size: 0.9em; opacity: 0.8; margin-bottom: 8px; line-height: 1.6;}
+        .project-card .tags { margin-bottom:15px; }
+        .project-card .tags span {
+            background-color: rgba(255,255,255,0.08); color: var(--secondary-color);
+            padding: 4px 10px; border-radius: 15px; font-size: 0.75em; margin-right: 8px; display:inline-block; margin-bottom:5px;
+        }
+        .project-card .actions { margin-top: auto; display:flex; gap:10px; padding-top:15px; border-top:1px solid var(--border-color);}
+        .stat-card { text-align: center; padding: 20px; border-left: 4px solid var(--primary-color) !important; }
+        .stat-card h3 { font-size: 1.4em; color: var(--secondary-color); margin-top: 5px; margin-bottom: 8px; }
+        .stat-card .icon { color: var(--primary-color); font-size: 2.2em !important; margin-bottom: 10px !important; }
+        /* --- END OF DASHBOARD SPECIFIC STYLES --- */
+
+        /* --- NEW: POST-INVESTMENT STYLES (UNCHANGED) --- */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .status-on-track {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .status-needs-attention {
+            background-color: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            border: 1px solid rgba(241, 196, 15, 0.4);
+        }
+        .status-at-risk {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* --- RESPONSIVE STYLES (UNCHANGED) --- */
+        @media (max-width: 992px) { 
+            .navbar nav { display: none; } 
+            .sidebar { left: -260px !important; } 
+            .sidebar.open { left: 0 !important; }
+            .main-content { margin-left: 0 !important; }
+            .hamburger-icon { display: block !important; font-size:1.5em; color:var(--text-color); cursor:pointer; }
+            .lang-switcher { margin-left: auto; margin-right: 15px;}
+        }
+         @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2em; } .hero .subtitle { font-size: 1.1em; }
+            .section-title { font-size: 1.9em; }
+            .grid-container-3-col, #pricing .grid-container { grid-template-columns: 1fr; }
+            .card h3 { min-height: auto; } 
+            #how-it-works .simplified-flow-container { flex-direction: column; align-items: center; }
+            .flow-step { margin-bottom: 30px; }
+            .filter-bar { flex-direction: column; gap: 10px; align-items:stretch; }
+            .filter-bar input, .filter-bar select, .filter-bar button { width: 100%; margin-left:0; box-sizing: border-box;}
+            .project-list-container, .investor-list-container { grid-template-columns: 1fr !important; } 
+            #irUpdateForm div[style*="grid"] { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 576px) {
+            .top-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .modal-content { width: 95% !important; }
+        }
+
+        /* --- MODAL STYLES (UNCHANGED) --- */
+        .modal-backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); z-index: 2000;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background-color: var(--bg-card); padding: 25px 35px; border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); width: 90%; max-width: 750px;
+            max-height: 90vh; overflow-y: auto; position: relative;
+            border-top: 4px solid var(--secondary-color);
+        }
+        .modal-close {
+            position: absolute; top: 15px; right: 20px; font-size: 2em;
+            color: var(--text-color); opacity: 0.7; cursor: pointer;
+            line-height: 1; transition: opacity 0.2s;
+        }
+        .modal-close:hover { opacity: 1; }
+        .modal-header {
+            border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px;
+        }
+        .modal-header h2 { margin: 0; font-size: 1.8em; color: var(--text-color); font-family: var(--font-headings); }
+        .modal-header p { font-size: 1.1em; opacity: 0.8; margin: 5px 0 0; }
+        .modal-body .detail-section { margin-bottom: 25px; }
+        .modal-body .detail-section h4 {
+            font-size: 1.2em; color: var(--secondary-color); margin-bottom: 10px;
+            padding-bottom: 5px; border-bottom: 1px solid var(--border-color);
+            font-family: var(--font-headings); font-weight: 500;
+        }
+        .modal-body .detail-section p, .modal-body .detail-section ul {
+            font-size: 0.95em; line-height: 1.7; opacity: 0.9;
+        }
+        .modal-body .detail-section ul { list-style: disc; padding-left: 20px; }
+        .metric-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px; margin-bottom: 25px;
+        }
+        .metric-item { background-color: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; }
+        .metric-item .label { font-size: 0.85em; opacity: 0.7; margin-bottom: 5px; display: block; }
+        .metric-item .value { font-size: 1.1em; font-weight: 500; color: var(--text-color); }
+        .modal-footer {
+            text-align: right; margin-top: 30px; padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 15px;
+            align-items: center;
+        }
+        .modal-footer p {
+            font-size: 0.8em; 
+            opacity: 0.7; 
+            margin-top: 0;
+            flex-basis: 100%;
+            text-align: right;
+        }
+        .modal-ai-actions {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        .action-feedback {
+            font-size: 0.9em;
+            color: var(--success-color);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            margin-left: 10px;
+        }
+        /* --- LANGUAGE SWITCHER STYLES (UNCHANGED) --- */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        .lang-switcher a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 5px 8px;
+            font-size: 0.9em;
+            opacity: 0.7;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: opacity 0.2s, background-color 0.2s;
+        }
+        .lang-switcher a:hover {
+            opacity: 1;
+        }
+        .lang-switcher a.active {
+            opacity: 1;
+            font-weight: bold;
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .lang-switcher span {
+            margin: 0 5px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LANDING PAGE CONTENT -->
+    <div id="landingPageWrapper">
+        <header class="navbar">
+            <div class="container">
+                <!-- MODIFIED: Logo updated -->
+                <a href="#" onclick="navigateToLandingPage(); return false;" class="logo-text">WarrenT AI</a>
+                <nav id="mainNav">
+                    <a href="#services" class="active" data-i18n="navServices">核心引擎</a>
+                    <a href="#for-whom" data-i18n="navForWhom">服务对象</a>
+                    <a href="#pricing" data-i18n="navPricing">商业模式</a>
+                    <a href="#how-it-works" data-i18n="navHowItWorks">运作流程</a>
+                    <a href="#contact" data-i18n="navContactUs">联系我们</a>
+                </nav>
+                <div style="display: flex; align-items: center; margin-left:auto;">
+                    <div class="lang-switcher">
+                        <a href="#" class="lang-zh" onclick="setLanguage('zh')">中文</a>
+                        <span>|</span>
+                        <a href="#" class="lang-en" onclick="setLanguage('en')">English</a>
+                    </div>
+                    <div class="auth-buttons">
+                        <a href="#" onclick="showLoginOptions(); return false;" class="btn-login" data-i18n="btnLogin">登录</a>
+                        <a href="#for-whom" class="btn-register" data-i18n="btnRegister">注册</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section class="hero"><div class="container"><h1 data-i18n="heroTitle">多Agent构建的出海投融资生态网络</h1><p class="subtitle" data-i18n="heroSubtitle">一个由AI驱动的智能平台，为顶尖出海创业者与全球投资者搭建信任的桥梁。</p><p class="target-regions" data-i18n="heroTargetRegions">主要服务热门出海目的地：<strong>东南亚、北美、欧洲、中东</strong>等地区。</p><a href="#services" class="btn" data-i18n="btnExploreServices">探索核心引擎</a><a href="#for-whom" class="btn btn-outline" style="margin-left: 15px;" data-i18n="btnLearnMore">了解更多 & 注册</a></div></section>
+            
+            <!-- MODIFIED: Services section completely replaced with 6 Agents -->
+            <section id="services" class="section">
+                <div class="container">
+                    <h2 class="section-title" data-i18n="servicesTitle">核心引擎：六大Agent驱动的智能工作流</h2>
+                    <p class="section-subtitle" data-i18n="servicesSubtitle">从准备、匹配、互动到投后，我们的Agent覆盖了融资的全生命周期。</p>
+                    <div class="grid-container grid-container-3-col">
+                        <div class="card">
+                            <div class="icon icon-bp"></div>
+                            <div class="card-content-wrapper">
+                                <h3 data-i18n="agentBP">智能BP助手</h3>
+                                <p data-i18n="agentBPDesc">将您的商业计划，智能转化为符合国际标准的顶尖投资故事。</p>
+                            </div>
+                            <span class="service-tag ai-service">Agent 1</span>
+                        </div>
+                        <div class="card">
+                            <div class="icon">👨‍🏫</div>
+                            <div class="card-content-wrapper">
+                                <h3 data-i18n="agentCoach">AI路演教练</h3>
+                                <p data-i18n="agentCoachDesc">提供实战模拟，扫除知识盲区，让您自信面对投资人。</p>
+                            </div>
+                            <span class="service-tag ai-service">Agent 2</span>
+                        </div>
+                        <div class="card">
+                            <div class="icon">🎯</div>
+                            <div class="card-content-wrapper">
+                                <h3 data-i18n="agentMatcher">智能匹配引擎</h3>
+                                <p data-i18n="agentMatcherDesc">基于深度数据，为投融双方精准发现机会，过滤95%的噪音。</p>
+                            </div>
+                            <span class="service-tag ai-service">Agent 3</span>
+                        </div>
+                        <div class="card">
+                            <div class="icon">🤝</div>
+                            <div class="card-content-wrapper">
+                                <h3 data-i18n="agentButler">交互流程管家</h3>
+                                <p data-i18n="agentButlerDesc">自动化管理邀约、会议和流程，作为智能中枢驱动交易前进。</p>
+                            </div>
+                            <span class="service-tag human-service">Agent 4</span>
+                        </div>
+                        <div class="card">
+                            <div class="icon">🤖</div>
+                            <div class="card-content-wrapper">
+                                <h3 data-i18n="agentDigitalHuman">AI数字人路演</h3>
+                                <p data-i18n="agentDigitalHumanDesc">为项目创建一个“数字人分身”，投资人可随时进行初步尽调问答。</p>
+                            </div>
+                            <span class="service-tag ai-service">Agent 5</span>
+                        </div>
+                        <div class="card">
+                            <div class="icon">📊</div>
+                            <div class="card-content-wrapper">
+                                <h3 data-i18n="agentPostInvest">智能投后管理</h3>
+                                <p data-i18n="agentPostInvestDesc">交易后的长期价值创造伙伴，提供标准化的报告、洞察与预警。</p>
+                            </div>
+                            <span class="service-tag human-service">Agent 6</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="for-whom" class="section" style="background-color: var(--bg-section-alt);"><div class="container"><h2 class="section-title" data-i18n="forWhomTitle">我们为谁服务？</h2><div class="grid-container" style="grid-template-columns: 1fr 1fr; gap: 40px; @media (max-width: 768px) { grid-template-columns: 1fr; }"><div class="card for-whom-card"><div class="icon">🚀</div><h3 data-i18n="forWhomEnterpriseTitle">出海创业者</h3><p data-i18n="forWhomEnterpriseDesc">寻求海外市场拓展和融资的中国创新企业、高成长性公司。无论您处于种子轮、成长期还是扩张期，我们都能提供助力。</p><a href="#" onclick="navigateToEnterpriseDashboard()" class="btn" style="margin-top: 20px; background-color:var(--primary-color);" data-i18n="forWhomEnterpriseBtn">创业者开始使用</a></div><div class="card for-whom-card"><div class="icon">💼</div><h3 data-i18n="forWhomInvestorTitle">全球投资人</h3><p data-i18n="forWhomInvestorDesc">寻找中国优质出海项目、寻求战略合作的全球风险投资机构、私募股权基金、产业投资者及跨国企业。</p><a href="#" onclick="navigateToInvestorDashboard()" class="btn" style="margin-top: 20px; background-color:var(--primary-color);" data-i18n="forWhomInvestorBtn">投资人开始使用</a></div></div></div></section>
+            <section id="pricing" class="section"><div class="container"><h2 class="section-title" data-i18n="pricingTitle">商业模式：订阅 + 分成</h2><p class="section-subtitle" data-i18n="pricingSubtitle">我们将可扩展的SaaS收入与高利润的成功费相结合，以实现价值捕获最大化。</p><div class="grid-container" style="grid-template-columns: 1fr 1fr;"><div class="card pricing-tier"><div class="card-content-wrapper"><h3 data-i18n="pricingSaaS">SaaS订阅 (获取引擎)</h3><p style="font-size:0.95em; opacity:0.8;" data-i18n="pricingSaaSDesc">为创业者和投资人提供不同层级的订阅套餐，获取高级AI工具和特权，构建稳定现金流。</p><ul><li data-i18n="pricingSaaS1">创业者基础版/专业版</li><li data-i18n="pricingSaaS2">投资人高级/机构版</li></ul></div><a href="#" onclick="navigateToEnterpriseDashboard()" class="btn" style="margin-top:20px;" data-i18n="pricingEnterpriseBtn">查看订阅方案</a></div><div class="card pricing-tier"><div class="card-content-wrapper"><h3 data-i18n="pricingSuccessFee">生态服务分成 (利润引擎)</h3><p style="font-size:0.95em; opacity:0.8;" data-i18n="pricingSuccessFeeDesc">为平台上的优质项目，对接我们认证的深度融资、法务、财税等线下专家网络。我们从中获取成功佣金或服务分成。</p><ul><li data-i18n="pricingSuccessFee1">融资成功费 (FA Service)</li><li data-i18n="pricingSuccessFee2">增值服务分成</li></ul></div><a href="#" onclick="navigateToInvestorDashboard()" class="btn" style="margin-top:20px;" data-i18n="pricingInvestorBtn">了解合作模式</a></div></div></div></section>
+            <section id="how-it-works" class="section" style="background-color: var(--bg-section-alt);"><div class="container"><h2 class="section-title" data-i18n="howTitle">一场双向奔赴的价值之旅</h2><p class="section-subtitle" data-i18n="howSubtitle">我们不仅赋能创业者，更在重塑投资人的工作效率。这是一个为双方共同设计的闭环生态。</p><div class="simplified-flow-container" style="max-width: 1000px; gap: 50px;"><div class="flow-step" style="max-width: 400px; text-align: left; padding:20px; background:var(--bg-card); border-radius:10px;"><h4 style="text-align:center;" data-i18n="howStep1Title">🚀 创业者之旅</h4><ul style="list-style:decimal; padding-left:20px; font-size: 0.95em; "><li style="margin-bottom:10px;" data-i18n="howStep1_1"><strong>价值创造:</strong> 用智能BP助手将想法转化为顶尖投资故事。</li><li style="margin-bottom:10px;" data-i18n="howStep1_2"><strong>机会链接:</strong> 接收全球精准匹配，用交互管家管理流程。</li><li data-i18n="howStep1_3"><strong>价值实现:</strong> 融资成功后，用智能投后工具管理投资人关系。</li></ul></div><div class="flow-step" style="max-width: 400px; text-align: left; padding:20px; background:var(--bg-card); border-radius:10px;"><h4 style="text-align:center;" data-i18n="howStep2Title">💼 投资人之旅</h4><ul style="list-style:decimal; padding-left:20px; font-size: 0.95em; "><li style="margin-bottom:10px;" data-i18n="howStep2_1"><strong>高效筛选:</strong> 接收AI预筛选项目流，用数字人进行异步尽调。</li><li style="margin-bottom:10px;" data-i18n="howStep2_2"><strong>深度决策:</strong> 对感兴趣项目，一键发起会议或资料邀约。</li><li data-i18n="howStep2_3"><strong>组合管理:</strong> 在标准化看板上，轻松管理所有被投项目表现。</li></ul></div></div></div></section>
+            <section id="contact" class="section contact-section"><div class="container"><h2 class="section-title" data-i18n="contactTitle">即刻启程，链接全球机遇</h2><p data-i18n="contactDesc">无论您是寻求海外发展的中国企业，还是寻找优质投资机会的海外资本，WarrenT AI都是您值得信赖的伙伴。</p><a href="mailto:warren@warrent.ai?subject=咨询 WarrenT AI 出海投融资服务平台" class="email-link">warren@warrent.ai</a><div style="margin-top:30px;"><a href="#for-whom" class="btn" data-i18n="contactBtn">立即开始</a></div></div></section>
+        </main>
+        <footer><div class="container"><p data-i18n="footerRights">&copy; 2024 WarrenT AI. 多Agent构建的出海投融资生态网络. 保留所有权利.</p><p><a href="#privacy" data-i18n="footerPrivacy">隐私政策</a> | <a href="#terms" data-i18n="footerTerms">服务条款</a></p></div></footer>
+    </div>
+
+    <!-- ENTERPRISE DASHBOARD CONTENT -->
+    <div id="enterpriseDashboardWrapper" style="display:none;">
+        <aside class="sidebar" id="enterpriseSidebarMenu">
+            <!-- MODIFIED: Logo updated -->
+            <div class="logo-area"><a href="#" onclick="navigateToLandingPage(); return false;" class="logo-text">WarrenT AI</a></div>
+            <nav><ul>
+                <li><a href="#" data-section="investorPool"><span class="icon">👥</span><span data-i18n="entNavInvestorPool">投资人库</span></a></li>
+                <!-- MODIFIED: Nav items renamed -->
+                <li><a href="#" data-section="myProject"><span class="icon">📝</span><span data-i18n="entNavFundraisingPrep">融资准备</span></a></li>
+                <li><a href="#" data-section="connectionManagement"><span class="icon">🤝</span><span data-i18n="entNavButler">交互流程管家</span></a></li>
+                <li><a href="#" data-section="investorRelations"><span class="icon">📊</span><span data-i18n="entNavPostInvest">智能投后管理</span></a></li>
+                <li><a href="#" data-section="accountSettings"><span class="icon">⚙️</span><span data-i18n="entNavSettings">账户设置</span></a></li>
+            </ul></nav>
+            <div class="user-profile-sidebar"><p id="enterpriseSidebarCompanyName" data-i18n="entSidebarCompany" data-i18n-base="企业: ">企业: <strong>获取中...</strong></p><a href="#" onclick="navigateToLandingPage(); return false;" data-i18n="entSidebarLogout">退出登录</a></div>
+        </aside>
+        <div class="main-content">
+            <header class="top-header"><div style="display:flex; align-items:center; gap:15px;"><span class="hamburger-icon" onclick="toggleEnterpriseSidebar()">☰</span><h1 id="enterprisePageTitle">企业工作台</h1></div><div class="user-actions"><div class="lang-switcher"><a href="#" class="lang-zh" onclick="setLanguage('zh')">中文</a><span>|</span><a href="#" class="lang-en" onclick="setLanguage('en')">English</a></div><a href="#" data-i18n-title="notifications" title="通知"><span class="icon">🔔</span><span style="background:var(--primary-color); color:white; font-size:0.6em; padding:2px 5px; border-radius:50%; position:relative; top:-8px; left:-5px;">3</span></a><a href="#" data-i18n-title="help" title="帮助"><span class="icon">❓</span></a><span id="enterpriseWelcomeUser">欢迎, 加载中...</span></div></header>
+            <div class="content-wrapper">
+                <section id="investorPool" class="enterprise-dashboard-section">
+                    <div class="onboarding-prompt" id="enterpriseOnboardingPrompt"><p><strong data-i18n="entOnboardingWelcome">欢迎来到WarrenT AI！</strong> <span data-i18n="entOnboardingPrompt1">您的项目资料似乎尚未完善。</span><a href="#" onclick="showEnterpriseSection('myProject'); return false;" data-i18n="entOnboardingPrompt2">立即进入“融资准备”</a><span data-i18n="entOnboardingPrompt3">，以获得更精准的投资人推荐。</span></p></div>
+                    <div class="dashboard-card"><h2 data-i18n="entInvestorPoolTitle">投资人库 (由智能匹配引擎驱动)</h2><p data-i18n="entInvestorPoolDesc">根据您的项目特点和投资人偏好，我们为您推荐以下可能感兴趣的投资人/机构。</p><div class="filter-bar" style="margin-top:15px; margin-bottom:20px;"><select id="enterpriseInvestorFilterStage"><option value="" data-i18n="filterStage">投资阶段偏好</option></select><select id="enterpriseInvestorFilterIndustry"><option value="" data-i18n="filterIndustry">行业领域偏好</option></select><select id="enterpriseInvestorFilterRegion"><option value="" data-i18n="filterRegion">地区偏好</option></select><button class="btn-primary btn-sm" onclick="simulateFilter(this, '#investorPool .investor-list-container')" data-i18n="btnFilter">筛选</button></div>
+                        <div class="investor-list-container">
+                            <div class="project-card"><div class="card-content-wrapper"><h3>远航资本 (ID: INV001)</h3><p><strong data-i18n="investorFocusStage">关注阶段:</strong> 种子轮, Pre-A轮</p><p><strong data-i18n="investorFocusIndustry">关注行业:</strong> SaaS, AI, 出海服务</p><div class="tags"><span>早期科技</span><span>SaaS</span></div></div><div class="actions"><button class="btn-primary" style="font-size:0.85em;" onclick="openInvestorModal('inv001')" data-i18n="btnViewDetails">查看详情</button></div></div>
+                            <div class="project-card"><div class="card-content-wrapper"><h3>环球增长基金 (ID: INV002)</h3><p><strong data-i18n="investorFocusStage">关注阶段:</strong> A轮, B轮</p><p><strong data-i18n="investorFocusIndustry">关注行业:</strong> 电商, 物流, 清洁能源</p><div class="tags"><span>成长期</span><span>ESG</span></div></div><div class="actions"><button class="btn-primary" style="font-size:0.85em;" onclick="openInvestorModal('inv002')" data-i18n="btnViewDetails">查看详情</button></div></div>
+                        </div>
+                    </div>
+                </section>
+                <section id="myProject" class="enterprise-dashboard-section" style="display:none;">
+                    <div class="dashboard-card">
+                        <div class="tabs-container"><button class="tab-button" onclick="switchEnterpriseProjectTab(this, 'projectInfoTab')" data-i18n="entProjectTabInfo">项目信息</button><button class="tab-button" onclick="switchEnterpriseProjectTab(this, 'projectAIToolsTab')" data-i18n="entProjectTabAITools">AI 融资工具</button><button class="tab-button" onclick="switchEnterpriseProjectTab(this, 'projectReportsTab')" data-i18n="entProjectTabReports">报告与文件</button></div>
+                        <div id="projectInfoTab" class="tab-content">
+                            <h2 data-i18n="entProjectInfoTitle">我的项目信息</h2><p data-i18n="entProjectInfoDesc">请尽可能详细地填写您的项目信息，这将帮助AI为您生成更精准的报告，并提高投资人匹配的成功率。标 * 为必填项。</p>
+                            <form id="enterpriseProjectForm" style="margin-top:20px;">
+                                <fieldset><legend data-i18n="formLegendBasic">基础信息</legend><div class="form-group"><label for="ep_projectName" data-i18n="formProjectName">项目名称 *</label><input type="text" id="ep_projectName" required></div><div class="form-group"><label for="ep_companyName" data-i18n="formCompanyName">公司法定名称</label><input type="text" id="ep_companyName"></div><div class="form-group"><label for="ep_oneLiner" data-i18n="formOneLiner">一句话介绍 (Slogan) *</label><input type="text" id="ep_oneLiner" required></div></fieldset>
+                                <fieldset><legend data-i18n="formLegendProblem">问题与方案</legend><div class="form-group"><label for="ep_problem" data-i18n="formProblem">解决的核心痛点 *</label><textarea id="ep_problem" rows="3" required></textarea></div><div class="form-group"><label for="ep_solution" data-i18n="formSolution">解决方案与核心产品 *</label><textarea id="ep_solution" rows="4" required></textarea></div></fieldset>
+                                <fieldset><legend data-i18n="formLegendMarket">市场与商业模式</legend><div class="form-group"><label for="ep_targetMarket" data-i18n="formTargetMarket">目标市场描述 *</label><textarea id="ep_targetMarket" rows="3" required></textarea></div><div class="form-group"><label for="ep_businessModel" data-i18n="formBusinessModel">商业模式 *</label><textarea id="ep_businessModel" rows="3" required></textarea></div></fieldset>
+                                <fieldset><legend data-i18n="formLegendProgress">进展与团队</legend><div class="form-group"><label for="ep_traction" data-i18n="formTraction">核心运营数据 (用于生成摘要卡片)</label><textarea id="ep_traction" rows="3" data-i18n-placeholder="formTractionPlaceholder" placeholder="例如：月活用户(MAU): 10万, 月度经常性收入(MRR): $5万, 用户留存率: 40%"></textarea></div><div class="form-group"><label for="ep_team" data-i18n="formTeam">核心团队介绍</label><textarea id="ep_team" rows="3"></textarea></div></fieldset>
+                                <fieldset><legend data-i18n="formLegendFunding">融资需求</legend><div class="form-group"><label for="ep_fundingStage" data-i18n="formFundingStage">当前融资阶段 *</label><select id="ep_fundingStage" required><option value="" data-i18n="formSelect">请选择</option><option value="seed" data-i18n="stageSeed">种子轮</option><option value="pre-a" data-i18n="stagePreA">Pre-A轮</option><option value="series-a" data-i18n="stageA">A轮</option></select></div><div class="form-group"><label for="ep_fundingSought" data-i18n="formFundingSought">本轮融资需求</label><input type="text" id="ep_fundingSought" data-i18n-placeholder="formFundingSoughtPlaceholder" placeholder="例如: $2M USD"></div></fieldset>
+                                <fieldset><legend data-i18n="formLegendAttachments">附件材料 (安全数据保险库)</legend>
+                                    <div class="form-group">
+                                        <label for="ep_pitchDeckFile" data-i18n="formPitchDeck">商业计划书 (BP/Pitch Deck)</label>
+                                        <!-- MODIFIED: Added security hint -->
+                                        <small style="opacity:0.7; display:block; margin-top:-5px; margin-bottom:5px;">
+                                          <span data-i18n="formUploadSecure">🔒 上传至您的安全数据保险库，仅在您授权下通过安全阅览模式分享。</span>
+                                        </small>
+                                        <input type="file" id="ep_pitchDeckFile">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ep_videoPitchFile" data-i18n="formVideoPitch">路演视频 (可选, 用于AI播报)</label>
+                                        <input type="file" id="ep_videoPitchFile">
+                                    </div>
+                                </fieldset>
+                                <button type="button" class="btn-primary" onclick="saveEnterpriseProject(this)" data-i18n="btnSaveProject">保存项目信息</button>
+                                <span class="form-feedback"></span>
+                            </form>
+                        </div>
+                        <div id="projectAIToolsTab" class="tab-content">
+                            <div class="dashboard-section-title-bar"><h2 data-i18n="entAIToolsTitle">AI 融资工具 (Agent)</h2><p data-i18n="entAIToolsDesc">调用您的专属Agent，为您的项目全面赋能。</p></div>
+                             <!-- MODIFIED: AI tools section re-architected -->
+                            <div class="dashboard-grid" style="margin-top:20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                                <div class="dashboard-card"><div class="icon" style="font-size: 2.5em; margin-bottom:15px; text-align:left;">📝</div>
+                                    <h2 data-i18n="agentBP">智能BP助手</h2>
+                                    <p data-i18n="agentBPDescInApp">基于您填写的项目信息，自动生成符合国际标准的BP初稿、估值模型和市场分析，构建您的投资故事。</p>
+                                    <button class="btn-primary" style="margin-top:auto;" onclick="generateAIReport(this, 'AI估值报告', 'AI Valuation Report')">启动BP助手</button>
+                                </div>
+                                <div class="dashboard-card"><div class="icon" style="font-size: 2.5em; margin-bottom:15px; text-align:left;">👨‍🏫</div>
+                                    <h2 data-i18n="agentCoach">AI路演教练</h2>
+                                    <p data-i18n="agentCoachDescInApp">上传您的BP，与AI进行问答模拟。AI将扮演不同风格的投资人，向您提问并提供反馈，帮您自信应对挑战。</p>
+                                    <button class="btn-primary" style="margin-top:auto;" onclick="generateAIReport(this, 'AI路演模拟反馈', 'AI Pitch Simulation Feedback')">开始模拟路演</button>
+                                </div>
+                                <div class="dashboard-card"><div class="icon" style="font-size: 2.5em; margin-bottom:15px; text-align:left;">🤖</div>
+                                    <h2 data-i18n="agentDigitalHuman">AI数字人路演</h2>
+                                    <p data-i18n="agentDigitalHumanDescInApp">为您的项目生成一个可7x24小时工作的“数字人分身”，用于投资人的异步初步尽调，极大提升沟通效率。</p>
+                                    <button class="btn-primary" style="margin-top:auto;" onclick="generateAIReport(this, 'AI数字人播报脚本', 'AI Digital Human Script')">生成我的数字分身</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="projectReportsTab" class="tab-content">
+                            <h2 data-i18n="entReportsTitle">报告与文件库</h2><p data-i18n="entReportsDesc">所有AI生成的报告和您上传的补充资料将在此列出。</p>
+                            <h3 style="margin-top:20px; margin-bottom:10px; font-size:1.1em;" data-i18n="entReportsGenerated">AI 生成的报告:</h3>
+                            <ul class="report-list" id="aiReportsList">
+                                <li><span>AI估值报告_v1.pdf</span><span class="date">2024-03-10</span><a href="#" class="link-action" data-i18n="actionDownload">下载</a></li>
+                                <li><span>AI数字人播报_v1.mp4</span><span class="date">2024-03-11</span><a href="#" class="link-action" data-i18n="actionPreview">预览</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <section id="connectionManagement" class="enterprise-dashboard-section" style="display:none;"><div class="dashboard-card"><h2 data-i18n="entConnectionTitle">交互流程管家</h2><p data-i18n="entConnectionDesc">查看已通过平台匹配或接触的投资人，管理沟通状态。</p><table class="table-classic" style="width:100%; margin-top:20px;"><thead><tr><th data-i18n="tableHeaderInvestor">投资人/机构 (ID)</th><th data-i18n="tableHeaderStatus">当前状态</th><th data-i18n="tableHeaderUpdate">最新沟通</th><th data-i18n="tableHeaderActions">操作</th></tr></thead><tbody id="connectionManagementTableBody"><tr><td>远航资本 (INV001)</td><td><span style="color:var(--secondary-color); font-weight:bold;" data-i18n="statusBPSent">已发送BP, 待反馈</span></td><td>2024-03-14</td><td><a href="#" class="link-action" data-i18n="actionViewLog">查看记录</a></td></tr><tr><td>环球增长基金 (INV002)</td><td><span style="color:orange; font-weight:bold;" data-i18n="statusBPRequested">请求查看完整BP</span></td><td>2024-03-15</td><td data-i18n-actions-id="inv002"><a href="#" class="link-action" onclick="handleConnectionAction(this, 'approve', 'inv002')" data-i18n="actionApprove">同意发送</a><a href="#" class="link-action" onclick="handleConnectionAction(this, 'decline', 'inv002')" data-i18n="actionDecline">婉拒</a></td></tr><tr><td>天使投资人 (INV003)</td><td><span style="color:lightgreen; font-weight:bold;" data-i18n="statusBPViewed">投资人已查看BP</span></td><td>2024-03-16</td><td><a href="#" class="link-action" data-i18n="actionRequestContact">请求交换联系方式</a></td></tr></tbody></table></div></section>
+                <section id="investorRelations" class="enterprise-dashboard-section" style="display:none;">
+                    <div class="dashboard-card">
+                        <h2 data-i18n="irTitle">智能投后管理</h2>
+                        <p data-i18n="irDesc">请定期向您的投资人提交运营数据和进展。透明、及时的沟通是建立信任的关键。Agent将为您提供洞察与预警。</p>
+                        
+                        <form id="irUpdateForm" style="margin-top:25px;">
+                            <fieldset>
+                                <legend data-i18n="irFormLegendNew">提交新报告</legend>
+                                <div class="form-group">
+                                    <label for="ir_period" data-i18n="formReportingPeriod">报告期 *</label>
+                                    <input type="text" id="ir_period" required placeholder="例如: 2024 Q1" data-i18n-placeholder="formReportingPeriodPlaceholder">
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <div class="form-group"><label for="ir_mrr" data-i18n="formMRR">月度经常性收入 (MRR)</label><input type="text" id="ir_mrr" placeholder="$ USD"></div>
+                                    <div class="form-group"><label for="ir_mau" data-i18n="formMAU">月活跃用户 (MAU)</label><input type="text" id="ir_mau"></div>
+                                     <div class="form-group"><label for="ir_burn" data-i18n="formBurnRate">月度净消耗 (Net Burn)</label><input type="text" id="ir_burn" placeholder="$ USD"></div>
+                                     <div class="form-group"><label for="ir_runway" data-i18n="formRunway">现金跑道 (Cash Runway)</label><input type="text" id="ir_runway" data-i18n-placeholder="formRunwayPlaceholder" placeholder="in months"></div>
+                                </div>
+                                <div class="form-group"><label for="ir_summary" data-i18n="formHighlights">本期亮点、挑战与求助 *</label><textarea id="ir_summary" rows="4" required data-i18n-placeholder="formHighlightsPlaceholder" placeholder="简要描述业务进展、遇到的问题，以及希望投资人提供的帮助。"></textarea></div>
+                                 <div class="form-group"><label for="ir_report_file" data-i18n="formDetailedReport">上传详细报告 (PDF)</label><input type="file" id="ir_report_file"></div>
+                                <button type="button" class="btn-primary" onclick="submitIrUpdate(this)" data-i18n="btnSubmitUpdate">提交更新</button>
+                                <span class="form-feedback"></span>
+                            </fieldset>
+                        </form>
+                        <div style="margin-top:40px;">
+                            <h3 style="font-size:1.4em; font-family:var(--font-headings);" data-i18n="irHistoryTitle">历史报告</h3>
+                            <table class="table-classic" style="margin-top:15px;"><thead><tr><th data-i18n="tableHeaderPeriod">报告期</th><th data-i18n="tableHeaderSubmitDate">提交日期</th><th data-i18n="metricMRR">MRR</th><th data-i18n="metricMAU">MAU</th><th data-i18n="tableHeaderActions">操作</th></tr></thead><tbody id="irHistoryTableBody"><tr><td>2023 Q4</td><td>2024-01-15</td><td>$74K</td><td>62K</td><td><a href="#" class="link-action" data-i18n="actionView">查看</a></td></tr></tbody></table>
+                        </div>
+                    </div>
+                </section>
+                <section id="accountSettings" class="enterprise-dashboard-section" style="display:none;"><div class="dashboard-card"><div class="tabs-container"><button class="tab-button" onclick="switchEnterpriseSettingsTab(this, 'accountProfileTab')" data-i18n="entSettingsTabProfile">公司与联系人</button><button class="tab-button" onclick="switchEnterpriseSettingsTab(this, 'accountSecurityTab')" data-i18n="entSettingsTabSecurity">安全与通知</button><button class="tab-button" onclick="switchEnterpriseSettingsTab(this, 'accountOrdersTab')" data-i18n="entSettingsTabOrders">订单与发票</button></div><div id="accountProfileTab" class="tab-content"><form><fieldset><legend data-i18n="formLegendCompanyInfo">公司信息</legend><div class="form-group"><label data-i18n="formLegalName">工商注册名称 (不可修改)</label><input type="text" value="示例科技有限公司" readonly disabled></div><div class="form-group"><label data-i18n="formPrimaryEmail">主要联系邮箱</label><input type="email" value="contact@example.com"></div><button type="button" class="btn-primary" data-i18n="btnUpdate">更新</button></fieldset></form></div><div id="accountSecurityTab" class="tab-content"><form><fieldset><legend data-i18n="formLegendSecurity">账户安全</legend><div class="form-group"><label data-i18n="formCurrentPassword">当前密码</label><input type="password"></div><div class="form-group"><label data-i18n="formNewPassword">新密码</label><input type="password"></div><button type="button" class="btn-primary" data-i18n="btnUpdatePassword">更新密码</button></fieldset></form></div><div id="accountOrdersTab" class="tab-content"><h2 data-i18n="entOrdersTitle">订单管理</h2><table class="table-classic" style="margin-top:20px;"><thead><tr><th data-i18n="tableHeaderOrderID">订单ID</th><th data-i18n="tableHeaderService">服务名称</th><th data-i18n="tableHeaderAmount">金额</th><th data-i18n="tableHeaderDate">日期</th><th data-i18n="tableHeaderStatus">状态</th><th data-i18n="tableHeaderActions">操作</th></tr></thead><tbody><tr><td>ORD-001</td><td data-i18n="serviceValuationReport">AI企业估值报告</td><td>$299</td><td>2024-03-01</td><td data-i18n="statusCompleted">已完成</td><td><a href="#" class="link-action" data-i18n="actionDownloadInvoice">下载发票</a></td></tr></tbody></table></div></div></section>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVESTOR DASHBOARD CONTENT -->
+    <div id="investorDashboardWrapper" style="display:none;">
+        <aside class="sidebar" id="investorSidebarMenu">
+            <!-- MODIFIED: Logo updated -->
+            <div class="logo-area"><a href="#" onclick="navigateToLandingPage(); return false;" class="logo-text">WarrenT AI</a></div>
+            <nav><ul>
+                <li><a href="#" data-section="projectDiscovery"><span class="icon">🔍</span><span data-i18n="invNavDiscovery">项目发现</span></a></li>
+                <!-- MODIFIED: Nav items renamed -->
+                <li><a href="#" data-section="matchManagement"><span class="icon">💬</span><span data-i18n="invNavButler">交互流程管家</span></a></li>
+                <li><a href="#" data-section="portfolioManagement"><span class="icon">🗂️</span><span data-i18n="invNavPortfolio">智能投后管理</span></a></li>
+                <li><a href="#" data-section="investorProfile"><span class="icon">👤</span><span data-i18n="invNavProfile">投资人信息</span></a></li>
+                <li><a href="#" data-section="accountSettingsInvestor"><span class="icon">⚙️</span><span data-i18n="invNavSettings">账户设置</span></a></li>
+            </ul></nav>
+            <div class="user-profile-sidebar"><p id="investorSidebarInstitutionName" data-i18n="invSidebarInstitution" data-i18n-base="机构: ">机构: <strong>加载中...</strong></p><a href="#" onclick="navigateToLandingPage(); return false;" data-i18n="invSidebarLogout">退出登录</a></div>
+        </aside>
+        <div class="main-content">
+            <header class="top-header"><div style="display:flex; align-items:center; gap:15px;"><span class="hamburger-icon" onclick="toggleInvestorSidebar()">☰</span><h1 id="investorPageTitle">投资人工作台</h1></div><div class="user-actions"><div class="lang-switcher"><a href="#" class="lang-zh" onclick="setLanguage('zh')">中文</a><span>|</span><a href="#" class="lang-en" onclick="setLanguage('en')">English</a></div><a href="#" data-i18n-title="notifications" title="通知"><span class="icon">🔔</span></a><span id="investorWelcomeInvestor">欢迎, 加载中...</span></div></header>
+            <div class="content-wrapper">
+                <section id="projectDiscovery" class="investor-dashboard-section">
+                    <div class="onboarding-prompt" id="investorOnboardingPrompt"><p><strong data-i18n="invOnboardingWelcome">欢迎来到WarrenT AI！</strong> <span data-i18n="invOnboardingPrompt1">为了给您推荐最相关的项目，请先</span><a href="#" onclick="showInvestorSection('investorProfile'); return false;" data-i18n="invOnboardingPrompt2">完善您的投资人信息与偏好</a>。</p></div>
+                    <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-bottom: 25px;"><div class="dashboard-card stat-card"><div class="icon">🆕</div><h3><span>12</span> <span data-i18n="invStatNew">个新匹配项目</span></h3></div><div class="dashboard-card stat-card"><div class="icon">⭐</div><h3><span>3</span> <span data-i18n="invStatWatchlist">个关注有更新</span></h3></div><div class="dashboard-card stat-card"><div class="icon">💬</div><h3><span>2</span> <span data-i18n="invStatPending">个待处理对接</span></h3></div></div>
+                    <div class="dashboard-card">
+                        <div class="tabs-container">
+                            <button class="tab-button" onclick="switchInvestorDiscoveryTab(this, 'discoverTab')" data-i18n="invDiscoveryTabDiscover">发现项目</button>
+                            <button class="tab-button" onclick="switchInvestorDiscoveryTab(this, 'watchlistTab')" data-i18n="invDiscoveryTabWatchlist">我的关注</button>
+                        </div>
+                        <div id="discoverTab" class="tab-content">
+                            <div class="filter-bar" style="margin-top:0; margin-bottom:20px;">
+                                <input type="text" data-i18n-placeholder="filterKeyword" placeholder="关键词搜索..." style="flex-grow:1;">
+                                <button class="btn-primary btn-sm" onclick="simulateFilter(this, '#discoverTab .project-list-container')" data-i18n="btnFilter">筛选</button>
+                            </div>
+                            <div class="project-list-container">
+                                <div class="project-card" data-project-id="p00123"><div class="card-content-wrapper"><h3>智能环保回收方案 (ID: P00123)</h3><p><strong data-i18n="projectBrief">简介:</strong> 基于物联网和AI图像识别的智能垃圾分类与回收平台...</p><div class="tags"><span>ESG</span><span>AI驱动</span></div></div><div class="actions"><button class="btn-primary" style="font-size:0.85em;" onclick="openProjectModal('p00123')" data-i18n="btnViewDetails">查看详情</button><button class="btn-primary btn-outline" style="font-size:0.85em;" onclick="toggleWatchlist(this, 'p00123')" data-i18n="btnWatch">关注</button></div></div>
+                                <div class="project-card" data-project-id="p00456"><div class="card-content-wrapper"><h3>企业级SaaS协作工具 (ID: P00456)</h3><p><strong data-i18n="projectBrief">简介:</strong> 新一代项目管理与团队协作SaaS平台...</p><div class="tags"><span>SaaS</span><span>高留存</span></div></div><div class="actions"><button class="btn-primary" style="font-size:0.85em;" onclick="openProjectModal('p00456')" data-i18n="btnViewDetails">查看详情</button><button class="btn-primary btn-outline" style="font-size:0.85em;" onclick="toggleWatchlist(this, 'p00456')" data-i18n="btnWatch">关注</button></div></div>
+                            </div>
+                        </div>
+                        <div id="watchlistTab" class="tab-content">
+                            <p style="margin-bottom:20px;" data-i18n="invWatchlistDesc">追踪您已关注的项目。</p>
+                            <div class="project-list-container">
+                                <!-- Watched projects will be moved here by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="matchManagement" class="investor-dashboard-section" style="display:none;"><div class="dashboard-card"><h2 data-i18n="invMatchingTitle">交互流程管家</h2><p data-i18n="invMatchingDesc">管理您与项目方的沟通记录和对接进度。</p><table class="table-classic" style="margin-top:20px;"><thead><tr><th data-i18n="tableHeaderProjectName">项目名称 (ID)</th><th data-i18n="tableHeaderCompany">企业名称</th><th data-i18n="tableHeaderStatus">当前状态</th><th data-i18n="tableHeaderUpdate">最新更新</th><th data-i18n="tableHeaderActions">操作</th></tr></thead><tbody id="investorMatchManagementTableBody"><tr><td>企业级SaaS协作工具 (P00456)</td><td>创新SaaS有限公司</td><td><span style="color:lightgreen; font-weight:bold;" data-i18n="statusBPReceived">已获取BP，待查看</span></td><td>2024-03-14</td><td><a href="#" class="link-action" data-i18n="actionViewBP">查看BP</a> <a href="#" class="link-action" data-i18n="actionRequestContact">请求联系方式</a></td></tr><tr><td>跨境电商物流解决方案 (P00333)</td><td>环球速达</td><td><span style="color:orange;" data-i18n="statusConnectionRequest">企业请求对接</span></td><td>2024-03-15</td><td data-i18n-actions-id="p00333"><a href="#" class="link-action" data-i18n="actionViewBrief">查看简报</a><a href="#" class="link-action" onclick="handleInvestorMatchAction(this, 'accept', 'p00333')" data-i18n="actionAccept">接受</a><a href="#" class="link-action" onclick="handleInvestorMatchAction(this, 'decline', 'p00333')" data-i18n="actionDecline">婉拒</a></td></tr><tr><td>智能环保回收方案 (P00123)</td><td>智慧环保科技</td><td><span style="color:var(--secondary-color); font-weight:bold;" data-i18n="statusAIPitchPending">AI播报演示待确认</span></td><td>2024-03-16</td><td><a href="#" class="link-action" data-i18n="actionConfirmTime">确认时间</a></td></tr></tbody></table></div></section>
+                <section id="portfolioManagement" class="investor-dashboard-section" style="display:none;">
+                    <div class="dashboard-card">
+                        <h2 data-i18n="portfolioTitle">智能投后管理</h2>
+                        <p data-i18n="portfolioDesc">追踪您已投资项目的关键指标和最新进展。数据由项目方定期更新，由Agent提供洞察。</p>
+                        <table class="table-classic" style="margin-top:20px;">
+                            <thead><tr><th data-i18n="tableHeaderProjectName">项目名称 (ID)</th><th data-i18n="portfolioTableHeaderMetrics">关键指标 (最新)</th><th data-i18n="tableHeaderStatus">状态</th><th data-i18n="tableHeaderUpdate">最后更新</th><th data-i18n="tableHeaderActions">操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>企业级SaaS协作工具 (P00456)</td><td><div style="font-size: 0.9em; line-height: 1.6;"><strong data-i18n="metricMRR">MRR:</strong> $85K (+15%)<br><strong data-i18n="metricRunway">Runway:</strong> 18 months</div></td><td><span class="status-badge status-on-track" data-i18n="statusOnTrack">正常</span></td><td>2024-03-31</td><td><a href="#" class="link-action" data-i18n="actionViewReport">查看报告</a></td></tr>
+                                <tr><td>智能环保回收方案 (P00123)</td><td><div style="font-size: 0.9em; line-height: 1.6;"><strong data-i18n="metricMAU">MAU:</strong> 65K (+5%)<br><strong data-i18n="metricBurnRate">Burn Rate:</strong> $120K/month</div></td><td><span class="status-badge status-needs-attention" data-i18n="statusNeedsAttention">需关注</span></td><td>2024-04-02</td><td><a href="#" class="link-action" data-i18n="actionViewReport">查看报告</a></td></tr>
+                                 <tr><td>跨境电商物流解决方案 (P00333)</td><td><div style="font-size: 0.9em; line-height: 1.6;"><strong data-i18n="metricMRR">MRR:</strong> $250K (-5%)<br><strong data-i18n="metricRunway">Runway:</strong> 6 months</div></td><td><span class="status-badge status-at-risk" data-i18n="statusAtRisk">高风险</span></td><td>2024-04-01</td><td><a href="#" class="link-action" data-i18n="actionViewReport">查看报告</a></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section id="investorProfile" class="investor-dashboard-section" style="display:none;"><div class="dashboard-card">
+                    <h2 data-i18n="invProfileTitle">投资人信息与偏好</h2><p style="margin-bottom:15px;" data-i18n="invProfileDesc">请完善您的机构信息及投资偏好，这将帮助我们的“智能匹配引擎”更精准地为您推荐项目。标 * 为必填项。</p>
+                    <form id="investorProfileForm">
+                        <fieldset><legend data-i18n="formLegendInvestorInfo">机构/个人信息</legend><div class="form-group"><label for="ip_investorName" data-i18n="formInvestorName">投资人/机构名称 *</label><input type="text" id="ip_investorName" required></div><div class="form-group"><label for="ip_investorType" data-i18n="formInvestorType">投资人类型 *</label><select id="ip_investorType" required><option value="" data-i18n="formSelect">请选择</option><option value="vc">VC</option><option value="pe">PE</option><option value="angel" data-i18n="investorTypeAngel">天使投资人</option><option value="cvc" data-i18n="investorTypeCVC">CVC(企业战投)</option></select></div><div class="form-group"><label for="ip_website" data-i18n="formWebsite">机构网址</label><input type="url" id="ip_website"></div></fieldset>
+                        <fieldset><legend data-i18n="formLegendPreference">投资偏好</legend><div class="form-group"><label data-i18n="formPrefStage">偏好投资阶段 * (可多选)</label><div class="checkbox-group"><span><input type="checkbox" id="stage_seed"><label for="stage_seed" data-i18n="stageSeed">种子轮</label></span><span><input type="checkbox" id="stage_prea"><label for="stage_prea" data-i18n="stagePreA">Pre-A轮</label></span><span><input type="checkbox" id="stage_a"><label for="stage_a" data-i18n="stageA">A轮</label></span><span><input type="checkbox" id="stage_b"><label for="stage_b" data-i18n="stageB">B轮及以后</label></span></div></div><div class="form-group"><label data-i18n="formPrefIndustry">偏好行业领域 * (可多选)</label><div class="checkbox-group"><span><input type="checkbox" id="ind_saas"><label for="ind_saas" data-i18n="industrySaaS">企业SaaS</label></span><span><input type="checkbox" id="ind_ai"><label for="ind_ai" data-i18n="industryAI">AI/机器学习</label></span><span><input type="checkbox" id="ind_ecom"><label for="ind_ecom" data-i18n="industryEcom">跨境电商</label></span><span><input type="checkbox" id="ind_web3"><label for="ind_web3">Web3</label></span></div></div><div class="form-group"><label data-i18n="formPrefRegion">偏好地域市场 * (可多选)</label><div class="checkbox-group"><span><input type="checkbox" id="reg_na"><label for="reg_na" data-i18n="regionNA">北美</label></span><span><input type="checkbox" id="reg_sea"><label for="reg_sea" data-i18n="regionSEA">东南亚</label></span><span><input type="checkbox" id="reg_eu"><label for="reg_eu" data-i18n="regionEU">欧洲</label></span><span><input type="checkbox" id="reg_me"><label for="reg_me" data-i18n="regionME">中东</label></span></div></div><div class="form-group"><label for="ip_checkSize" data-i18n="formCheckSize">单笔典型投资金额范围 *</label><select id="ip_checkSize" required><option value="" data-i18n="formSelect">请选择</option><option value="<100k">&lt; $100K USD</option><option value="100k-500k">$100K - $500K</option><option value="500k-2m">$500K - $2M</option><option value=">2m">&gt; $2M</option></select></div></fieldset>
+                        <fieldset><legend data-i18n="formLegendIntro">投资简介与案例</legend><div class="form-group"><label for="ip_thesis" data-i18n="formThesis">投资逻辑/机构介绍 (Thesis)</label><textarea id="ip_thesis" rows="4" data-i18n-placeholder="formThesisPlaceholder" placeholder="简述您的投资策略、关注的核心要素等。"></textarea></div><div class="form-group"><label for="ip_valueAdd" data-i18n="formValueAdd">我们的增值服务 (Value Add)</label><textarea id="ip_valueAdd" rows="3" data-i18n-placeholder="formValueAddPlaceholder" placeholder="除了资金，您还能为被投企业提供哪些帮助？例如：行业资源、市场渠道、人才招聘等。"></textarea></div><div class="form-group"><label for="ip_portfolio" data-i18n="formPortfolio">代表性公开投资案例</label><textarea id="ip_portfolio" rows="3" data-i18n-placeholder="formPortfolioPlaceholder" placeholder="列举1-3个有代表性的已投项目（公开信息），可简述投资逻辑。"></textarea></div></fieldset>
+                        <button type="button" class="btn-primary" onclick="saveInvestorProfile(this)" data-i18n="btnSaveChanges">保存偏好与信息</button>
+                        <span class="form-feedback"></span>
+                    </form>
+                </div></section>
+                <section id="accountSettingsInvestor" class="investor-dashboard-section" style="display:none;"><div class="dashboard-card"><div class="tabs-container"><button class="tab-button" onclick="switchInvestorSettingsTab(this, 'investorSecurityTab')" data-i18n="invSettingsTabSecurity">安全与通知</button><button class="tab-button" onclick="switchInvestorSettingsTab(this, 'investorSubscriptionTab')" data-i18n="invSettingsTabSub">订阅与账单</button></div><div id="investorSecurityTab" class="tab-content"><form><fieldset><legend data-i18n="formLegendSecurity">账户安全</legend><button type="button" class="btn-primary" data-i18n="btnUpdatePassword">更新密码</button></fieldset></form></div><div id="investorSubscriptionTab" class="tab-content"><h2 data-i18n="invSubTitle">订阅服务</h2><div class="dashboard-grid" style="margin-top:20px;"><div class="dashboard-card pricing-tier"><h3 data-i18n="subPlanBasic">基础版 (当前计划)</h3><p class="price" style="font-size:1.5em;" data-i18n="pricingFree">免费</p></div><div class="dashboard-card pricing-tier"><h3 data-i18n="subPlanPro">专业版</h3><p class="price" style="font-size:1.5em;">$99 /月</p><button class="btn-primary" data-i18n="btnUpgradePro">升级专业版</button></div></div></div></div></section>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL (UNCHANGED) -->
+    <div id="loginOptionsModal" style="display:none; position:fixed; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:2000; align-items:center; justify-content:center; display:flex;">
+        <div style="background-color:var(--bg-card); padding:30px; border-radius:10px; text-align:center; box-shadow: 0 5px 25px rgba(0,0,0,0.5); width:350px;">
+            <h3 style="color:var(--secondary-color); margin-top:0; font-family:var(--font-headings);" data-i18n="loginModalTitle">请选择登录身份</h3>
+            <button onclick="navigateToEnterpriseDashboard()" class="btn" style="display:block; margin-bottom:15px; width:100%;" data-i18n="loginModalEnt">我是出海创业者</button>
+            <button onclick="navigateToInvestorDashboard()" class="btn" style="display:block; background-color:var(--primary-color); width:100%;" data-i18n="loginModalInv">我是全球投资人</button>
+            <button onclick="document.getElementById('loginOptionsModal').style.display='none';" style="margin-top:20px; background:none; border:1px solid var(--text-color); color:var(--text-color); padding:8px 15px; border-radius:5px; cursor:pointer; opacity:0.7;" data-i18n="btnCancel">取消</button>
+        </div>
+    </div>
+
+    <!-- Project & Investor Detail Modals -->
+    <div id="projectDetailModal" class="modal-backdrop" style="display: none;" onclick="closeModal(event)">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal(event)">&times;</span>
+            <div class="modal-header"><h2 id="modalProjectName"></h2><p id="modalProjectOneLiner"></p></div>
+            <div class="modal-body">
+                <div class="modal-ai-actions">
+                    <button class="btn-primary btn-sm btn-outline" onclick="simulateModalAction(this)" data-i18n="modalBtnRunValuation">⚖️ 运行AI估值</button>
+                    <button class="btn-primary btn-sm btn-outline" onclick="simulateModalAction(this)" data-i18n="modalBtnGenAnalysis">📈 生成赛道分析</button>
+                    <span class="action-feedback"></span>
+                </div>
+                <div class="metric-grid"><div class="metric-item"><span class="label" data-i18n="modalMetricStage">融资阶段</span><span class="value" id="modalProjectStage"></span></div><div class="metric-item"><span class="label" data-i18n="modalMetricSought">目标融资金额</span><span class="value" id="modalProjectSought"></span></div><div class="metric-item"><span class="label" data-i18n="modalMetricMarket">目标市场</span><span class="value" id="modalProjectMarket"></span></div><div class="metric-item"><span class="label" data-i18n="modalMetricIndustry">行业赛道</span><span class="value" id="modalProjectIndustry"></span></div></div>
+                <div class="detail-section"><h4 data-i18n="modalSectionProblem">痛点与机遇</h4><p id="modalProjectProblem"></p></div><div class="detail-section"><h4 data-i18n="modalSectionSolution">解决方案</h4><p id="modalProjectSolution"></p></div>
+                <div class="detail-section"><h4 data-i18n="modalSectionTraction">市场表现与牵引力</h4><ul id="modalProjectTraction"></ul></div>
+                <div class="detail-section"><h4 data-i18n="modalSectionTeam">团队背景 (脱敏)</h4><p id="modalProjectTeam"></p></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary btn-outline" onclick="simulateModalAction(this)" data-i18n="modalBtnAddToWatchlist">⭐ 加入关注</button>
+                <button class="btn-primary btn-outline" onclick="simulateModalAction(this)" data-i18n="modalBtnRequestAIPitch">🎥 预约AI数字人</button>
+                <button class="btn-primary" onclick="simulateModalAction(this)" data-i18n="modalBtnRequestBP">请求查看完整BP</button>
+                <span class="action-feedback" style="flex-basis: 100%; text-align: right; margin-top: 10px;"></span>
+            </div>
+        </div>
+    </div>
+    <div id="investorDetailModal" class="modal-backdrop" style="display: none;" onclick="closeModal(event)">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal(event)">&times;</span>
+            <div class="modal-header"><h2 id="modalInvestorName"></h2><p id="modalInvestorType"></p></div>
+            <div class="modal-body">
+                <div class="detail-section"><h4 data-i18n="modalSectionThesis">投资逻辑 (Thesis)</h4><p id="modalInvestorThesis"></p></div>
+                <div class="metric-grid"><div class="metric-item"><span class="label" data-i18n="modalMetricPrefStage">偏好阶段</span><span class="value" id="modalInvestorStages"></span></div><div class="metric-item"><span class="label" data-i18n="modalMetricPrefIndustry">偏好行业</span><span class="value" id="modalInvestorIndustries"></span></div><div class="metric-item"><span class="label" data-i18n="modalMetricPrefRegion">偏好区域</span><span class="value" id="modalInvestorRegions"></span></div><div class="metric-item"><span class="label" data-i18n="modalMetricCheckSize">单笔投资规模</span><span class="value" id="modalInvestorCheckSize"></span></div></div>
+                <div class="detail-section"><h4 data-i18n="modalSectionValueAdd">我们的增值服务 (Value Add)</h4><p id="modalInvestorValueAdd"></p></div>
+                <div class="detail-section"><h4 data-i18n="modalSectionPortfolio">代表性投资组合 (公开信息)</h4><p id="modalInvestorPortfolio"></p></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary btn-outline" onclick="simulateModalAction(this)" data-i18n="modalBtnSendAIPitch">发送AI数字人</button>
+                <button class="btn-primary" onclick="simulateModalAction(this)" data-i18n="modalBtnSendBP">发送BP并请求对接</button>
+                <span class="action-feedback" style="flex-basis: 100%; text-align: right; margin-top: 10px;"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- START OF BILINGUAL IMPLEMENTATION (FULLY UPDATED) ---
+        const i18n = {
+            // English Translations
+            en: {
+                // Meta
+                pageTitle: "WarrenT AI: A Go-Global Investment Ecosystem by Multiple Agents",
+                // Landing Page Nav & Auth
+                navServices: "Core Engine",
+                navForWhom: "For Whom",
+                navPricing: "Business Model",
+                navHowItWorks: "How It Works",
+                navContactUs: "Contact Us",
+                btnLogin: "Login",
+                btnRegister: "Register",
+                // Hero Section
+                heroTitle: "A Go-Global Investment Ecosystem by Multiple Agents",
+                heroSubtitle: "An AI-driven intelligent platform building a bridge of trust between top go-global founders and global investors.",
+                heroTargetRegions: "Primarily serving popular go-global destinations: <strong>Southeast Asia, North America, Europe, Middle East</strong>, and more.",
+                btnExploreServices: "Explore Core Engine",
+                btnLearnMore: "Learn More & Register",
+                // Services Section (Agents)
+                servicesTitle: "Core Engine: Intelligent Workflow Driven by Six Agents",
+                servicesSubtitle: "From preparation, matching, interaction to post-investment, our Agents cover the entire fundraising lifecycle.",
+                agentBP: "Smart BP Assistant",
+                agentBPDesc: "Intelligently transform your business plan into a top-tier investment story that meets international standards.",
+                agentCoach: "AI Pitch Coach",
+                agentCoachDesc: "Provides realistic simulations to identify knowledge gaps, building your confidence for investor meetings.",
+                agentMatcher: "Smart Matching Engine",
+                agentMatcherDesc: "Leverages deep data to accurately discover opportunities for both sides, filtering out 95% of the noise.",
+                agentButler: "Interaction Butler",
+                agentButlerDesc: "Automates invitations, meetings, and workflows, acting as the smart hub to drive deals forward.",
+                agentDigitalHuman: "AI Digital Human Pitch",
+                agentDigitalHumanDesc: "Create a 'digital twin' for your project, allowing investors to conduct preliminary async due diligence anytime.",
+                agentPostInvest: "Smart Post-Investment Mgmt",
+                agentPostInvestDesc: "Your long-term value creation partner after the deal, providing standardized reports, insights, and alerts.",
+                // For Whom Section
+                forWhomTitle: "Who Do We Serve?",
+                forWhomEnterpriseTitle: "Go-Global Founders",
+                forWhomEnterpriseDesc: "Innovative Chinese enterprises and high-growth companies seeking overseas market expansion and financing. We can help at any stage.",
+                forWhomEnterpriseBtn: "Founder Get Started",
+                forWhomInvestorTitle: "Global Investors",
+                forWhomInvestorDesc: "Global VCs, PE funds, CVCs, and MNCs looking for high-quality go-global projects from China.",
+                forWhomInvestorBtn: "Investor Get Started",
+                // Pricing Section
+                pricingTitle: "Business Model: Subscription + Success Fee",
+                pricingSubtitle: "We combine scalable SaaS revenue with high-margin success fees to maximize value capture.",
+                pricingSaaS: "SaaS Subscription (Acquisition Engine)",
+                pricingSaaSDesc: "Provide tiered subscription plans for founders and investors to access premium AI tools and privileges, building a stable cash flow.",
+                pricingSaaS1: "Founder Basic/Pro Plans",
+                pricingSaaS2: "Investor Premium/Institutional Plans",
+                pricingEnterpriseBtn: "View Plans",
+                pricingSuccessFee: "Ecosystem Service Fee (Profit Engine)",
+                pricingSuccessFeeDesc: "Connect high-quality projects on the platform with our certified network of offline experts for in-depth financing, legal, and tax services, from which we earn success fees.",
+                pricingSuccessFee1: "Fundraising Success Fee (FA Service)",
+                pricingSuccessFee2: "Value-added Service Fee",
+                pricingInvestorBtn: "Learn about Partnership",
+                // How It Works Section
+                howTitle: "A Mutually Beneficial Journey of Value",
+                howSubtitle: "We not only empower founders but also reshape investor efficiency. It's a closed-loop ecosystem designed for both parties.",
+                howStep1Title: "🚀 Founder's Journey",
+                howStep1_1: "Value Creation: Turn ideas into top-tier investment stories with the Smart BP Assistant.",
+                howStep1_2: "Opportunity Linking: Receive precise global matches and manage interactions with the Butler.",
+                howStep1_3: "Value Realization: Manage investor relations post-funding with Smart Post-Investment tools.",
+                howStep2Title: "💼 Investor's Journey",
+                howStep2_1: "Efficient Screening: Receive AI-filtered deal flow and conduct async DD with Digital Humans.",
+                howStep2_2: "In-depth Decision: Initiate meetings or request info for interesting projects with one click.",
+                howStep2_3: "Portfolio Management: Easily manage the performance of all portfolio companies on a standardized dashboard.",
+                // Contact Section
+                contactTitle: "Start Now, Connect with Global Opportunities",
+                contactDesc: "Whether you're a Chinese enterprise seeking overseas growth or an international investor looking for quality opportunities, WarrenT AI is your trusted partner.",
+                contactBtn: "Get Started Now",
+                // Footer
+                footerRights: "© 2024 WarrenT AI. A Go-Global Investment Ecosystem by Multiple Agents. All Rights Reserved.",
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms of Service",
+                // Login Modal
+                loginModalTitle: "Please Select Your Identity",
+                loginModalEnt: "I am a Go-Global Founder",
+                loginModalInv: "I am a Global Investor",
+                btnCancel: "Cancel",
+                // Enterprise Dashboard
+                entNavInvestorPool: "Investor Pool",
+                entNavFundraisingPrep: "Fundraising Prep",
+                entNavButler: "Interaction Butler",
+                entNavPostInvest: "Smart Post-Investment",
+                entNavSettings: "Account Settings",
+                entSidebarCompany: "Enterprise: ",
+                entSidebarLogout: "Logout",
+                notifications: "Notifications",
+                help: "Help",
+                entOnboardingWelcome: "Welcome to WarrenT AI!",
+                entOnboardingPrompt1: " It seems your project profile is incomplete. ",
+                entOnboardingPrompt2: "Go to 'Fundraising Prep' now",
+                entOnboardingPrompt3: " to get more accurate investor recommendations.",
+                entInvestorPoolTitle: "Investor Pool (Powered by Smart Matching Engine)",
+                entInvestorPoolDesc: "Based on your project's characteristics and investor preferences, we recommend the following potentially interested investors/institutions.",
+                filterStage: "Funding Stage Preference",
+                filterIndustry: "Industry Preference",
+                filterRegion: "Region Preference",
+                btnFilter: "Filter",
+                btnFiltering: "Filtering...",
+                investorFocusStage: "Focus Stage:",
+                investorFocusIndustry: "Focus Industry:",
+                btnViewDetails: "View Details",
+                entProjectTabInfo: "Project Info",
+                entProjectTabAITools: "AI Fundraising Tools",
+                entProjectTabReports: "Reports & Files",
+                entProjectInfoTitle: "My Project Information",
+                entProjectInfoDesc: "Please fill in your project information as detailed as possible. This will help the AI generate more accurate reports and increase the success rate of investor matching. * indicates required fields.",
+                formLegendBasic: "Basic Information",
+                formProjectName: "Project Name *",
+                formCompanyName: "Company Legal Name",
+                formOneLiner: "One-liner (Slogan) *",
+                formLegendProblem: "Problem & Solution",
+                formProblem: "Core Pain Point Solved *",
+                formSolution: "Solution & Core Product *",
+                formLegendMarket: "Market & Business Model",
+                formTargetMarket: "Target Market Description *",
+                formBusinessModel: "Business Model *",
+                formLegendProgress: "Progress & Team",
+                formTraction: "Key Metrics (for summary card)",
+                formTractionPlaceholder: "e.g., MAU: 100k, MRR: $50k, Retention Rate: 40%",
+                formTeam: "Core Team Introduction",
+                formLegendFunding: "Funding Needs",
+                formFundingStage: "Current Funding Stage *",
+                formSelect: "Please select",
+                stageSeed: "Seed",
+                stagePreA: "Pre-A",
+                stageA: "Series A",
+                formFundingSought: "Funding Amount Sought",
+                formFundingSoughtPlaceholder: "e.g., $2M USD",
+                formLegendAttachments: "Attachments (Secure Data Vault)",
+                formPitchDeck: "Pitch Deck (BP)",
+                formUploadSecure: "🔒 Uploaded to your Secure Data Vault. Shared only via secure, view-only mode with your authorization.",
+                formVideoPitch: "Video Pitch (Optional, for AI pitch)",
+                btnSaveProject: "Save Project Information",
+                btnSaving: "Saving...",
+                feedbackSaved: "Saved successfully!",
+                entAIToolsTitle: "AI Fundraising Tools (Agents)",
+                entAIToolsDesc: "Deploy your dedicated Agents to empower your project.",
+                btnGenerating: "Generating...",
+                agentBPDescInApp: "Based on your project info, automatically generate a draft BP, valuation model, and market analysis to build your investment story.",
+                agentCoachDescInApp: "Upload your BP and simulate a Q&A with our AI, which plays various investor personas to challenge you and provide feedback.",
+                agentDigitalHumanDescInApp: "Generate a 24/7 'digital twin' for your project, used for investors' asynchronous preliminary due diligence.",
+                entReportsTitle: "Reports & File Library",
+                entReportsDesc: "All AI-generated reports and your uploaded supplementary materials will be listed here.",
+                entReportsGenerated: "AI-Generated Reports:",
+                actionDownload: "Download",
+                actionPreview: "Preview",
+                entConnectionTitle: "Interaction Butler",
+                entConnectionDesc: "View investors you have matched or contacted through the platform and manage communication status.",
+                tableHeaderInvestor: "Investor/Institution (ID)",
+                tableHeaderStatus: "Current Status",
+                tableHeaderUpdate: "Last Update",
+                tableHeaderActions: "Actions",
+                statusBPSent: "BP Sent, Awaiting Feedback",
+                statusDeclined: "Declined",
+                actionViewLog: "View Log",
+                statusBPRequested: "Request to View Full BP",
+                actionApprove: "Approve",
+                actionDecline: "Decline",
+                statusBPViewed: "Investor Viewed BP",
+                actionRequestContact: "Request Contact Info",
+                entSettingsTabProfile: "Company & Contact",
+                entSettingsTabSecurity: "Security & Notifications",
+                entSettingsTabOrders: "Orders & Invoices",
+                formLegendCompanyInfo: "Company Information",
+                formLegalName: "Registered Company Name (cannot be modified)",
+                formPrimaryEmail: "Primary Contact Email",
+                btnUpdate: "Update",
+                formLegendSecurity: "Account Security",
+                formCurrentPassword: "Current Password",
+                formNewPassword: "New Password",
+                btnUpdatePassword: "Update Password",
+                entOrdersTitle: "Order Management",
+                tableHeaderOrderID: "Order ID",
+                tableHeaderService: "Service Name",
+                tableHeaderAmount: "Amount",
+                tableHeaderDate: "Date",
+                serviceValuationReport: "AI Business Valuation Report",
+                statusCompleted: "Completed",
+                actionDownloadInvoice: "Download Invoice",
+                irTitle: "Smart Post-Investment Management",
+                irDesc: "Submit regular operational data and progress to your investors. Transparent, timely communication is key to building trust. The Agent will provide insights and alerts.",
+                irFormLegendNew: "Submit New Report",
+                formReportingPeriod: "Reporting Period *",
+                formReportingPeriodPlaceholder: "e.g., Q1 2024",
+                formMRR: "Monthly Recurring Revenue (MRR)",
+                formMAU: "Monthly Active Users (MAU)",
+                formBurnRate: "Net Burn (Monthly)",
+                formRunway: "Cash Runway",
+                formRunwayPlaceholder: "in months",
+                formHighlights: "Highlights, Challenges & Asks *",
+                formHighlightsPlaceholder: "Briefly describe business progress, issues encountered, and any help needed from investors.",
+                formDetailedReport: "Upload Detailed Report (PDF)",
+                btnSubmitUpdate: "Submit Update",
+                btnSubmitting: "Submitting...",
+                feedbackSubmitted: "Update Submitted!",
+                irHistoryTitle: "Reporting History",
+                tableHeaderPeriod: "Period",
+                tableHeaderSubmitDate: "Submission Date",
+                actionView: "View",
+                // Investor Dashboard
+                invNavDiscovery: "Project Discovery",
+                invNavButler: "Interaction Butler",
+                invNavPortfolio: "Smart Post-Investment",
+                invNavProfile: "Investor Profile",
+                invNavSettings: "Account Settings",
+                invSidebarInstitution: "Institution: ",
+                invSidebarLogout: "Logout",
+                invOnboardingWelcome: "Welcome to WarrenT AI!",
+                invOnboardingPrompt1: " To get the most relevant project recommendations, please ",
+                invOnboardingPrompt2: "complete your investor profile and preferences",
+                invStatNew: "New Matched Projects",
+                invStatWatchlist: "Watchlist Updates",
+                invStatPending: "Pending Connections",
+                invDiscoveryTabDiscover: "Discover Projects",
+                invDiscoveryTabWatchlist: "My Watchlist",
+                filterKeyword: "Keyword search...",
+                projectBrief: "Brief:",
+                btnWatch: "Watch",
+                btnWatching: "Watching...",
+                invWatchlistDesc: "Track the projects you are following.",
+                tagUpdated: "(Updated)",
+                btnUnwatch: "Unwatch",
+                invMatchingTitle: "Interaction Butler",
+                invMatchingDesc: "Manage your communication records and connection progress with project teams.",
+                tableHeaderProjectName: "Project Name (ID)",
+                tableHeaderCompany: "Company Name",
+                statusBPReceived: "BP Received, Pending Review",
+                actionViewBP: "View BP",
+                statusConnectionRequest: "Connection Request from Founder",
+                statusConnectionAccepted: "Accepted, pending meeting",
+                actionViewBrief: "View Brief",
+                actionAccept: "Accept",
+                statusAIPitchPending: "AI Pitch Demo Pending Confirmation",
+                actionConfirmTime: "Confirm Time",
+                invProfileTitle: "Investor Profile & Preferences",
+                invProfileDesc: "Please complete your info and preferences. This helps our 'Smart Matching Engine' to recommend projects more accurately. * indicates required.",
+                formLegendInvestorInfo: "Institution/Personal Information",
+                formInvestorName: "Investor/Institution Name *",
+                formInvestorType: "Investor Type *",
+                investorTypeAngel: "Angel Investor",
+                investorTypeCVC: "CVC (Corporate VC)",
+                formWebsite: "Institution Website",
+                formLegendPreference: "Investment Preferences",
+                formPrefStage: "Preferred Investment Stage * (multi-select)",
+                stageB: "Series B & Later",
+                formPrefIndustry: "Preferred Industry/Sector * (multi-select)",
+                industrySaaS: "Enterprise SaaS",
+                industryAI: "AI/Machine Learning",
+                industryEcom: "Cross-border E-commerce",
+                formPrefRegion: "Preferred Geographic Market * (multi-select)",
+                regionNA: "North America",
+                regionSEA: "Southeast Asia",
+                regionEU: "Europe",
+                regionME: "Middle East",
+                formCheckSize: "Typical Check Size Range *",
+                formLegendIntro: "Investment Intro & Cases",
+                formThesis: "Investment Thesis / Intro",
+                formThesisPlaceholder: "Briefly describe your investment strategy, key factors you look for, etc.",
+                formValueAdd: "Our Value-Add",
+                formValueAddPlaceholder: "Besides capital, what other help can you provide? e.g., industry resources, market channels, talent recruitment, etc.",
+                formPortfolio: "Representative Public Portfolio Cases",
+                formPortfolioPlaceholder: "List 1-3 representative public investments, you can briefly describe the investment rationale.",
+                btnSaveChanges: "Save Changes",
+                invSettingsTabSecurity: "Security",
+                invSettingsTabSub: "Subscription & Billing",
+                invSubTitle: "Subscription Service",
+                subPlanBasic: "Basic Plan (Current)",
+                subPlanPro: "Pro Plan",
+                btnUpgradePro: "Upgrade to Pro",
+                portfolioTitle: "Smart Post-Investment Management",
+                portfolioDesc: "Track key metrics and recent progress of your invested projects. Data is updated periodically by founders and analyzed by our Agent.",
+                portfolioTableHeaderMetrics: "Key Metrics (Latest)",
+                metricMRR: "MRR:",
+                metricRunway: "Runway:",
+                metricMAU: "MAU:",
+                metricBurnRate: "Burn Rate:",
+                statusOnTrack: "On Track",
+                statusNeedsAttention: "Needs Attention",
+                statusAtRisk: "At Risk",
+                actionViewReport: "View Report",
+                // Modals
+                modalBtnRunValuation: "⚖️ Run AI Valuation",
+                modalBtnGenAnalysis: "📈 Generate Sector Analysis",
+                feedbackActionSent: "Action simulated!",
+                modalMetricStage: "Funding Stage",
+                modalMetricSought: "Amount Sought",
+                modalMetricMarket: "Target Market",
+                modalMetricIndustry: "Industry/Sector",
+                modalSectionProblem: "Problem & Opportunity",
+                modalSectionSolution: "Solution",
+                modalSectionTraction: "Market Performance & Traction",
+                modalSectionTeam: "Team Background (Anonymized)",
+                modalBtnAddToWatchlist: "⭐ Add to Watchlist",
+                modalBtnRequestAIPitch: "🎥 Request AI Digital Human",
+                modalBtnRequestBP: "Request Full Pitch Deck",
+                modalSectionThesis: "Investment Thesis",
+                modalMetricPrefStage: "Preferred Stage",
+                modalMetricPrefIndustry: "Preferred Industry",
+                modalMetricPrefRegion: "Preferred Region",
+                modalMetricCheckSize: "Typical Check Size",
+                modalSectionValueAdd: "Our Value-Add",
+                modalSectionPortfolio: "Representative Portfolio (Public Info)",
+                modalBtnSendAIPitch: "Send AI Digital Human",
+                modalBtnSendBP: "Send Pitch Deck & Request Connection",
+            },
+            // Chinese Translations
+            zh: {
+                // Meta
+                pageTitle: "WarrenT AI: 多Agent构建的出海投融资生态网络",
+                // Landing Page Nav & Auth
+                navServices: "核心引擎",
+                navForWhom: "服务对象",
+                navPricing: "商业模式",
+                navHowItWorks: "运作流程",
+                navContactUs: "联系我们",
+                btnLogin: "登录",
+                btnRegister: "注册",
+                // Hero Section
+                heroTitle: "多Agent构建的出海投融资生态网络",
+                heroSubtitle: "一个由AI驱动的智能平台，为顶尖出海创业者与全球投资者搭建信任的桥梁。",
+                heroTargetRegions: "主要服务热门出海目的地：<strong>东南亚、北美、欧洲、中东</strong>等地区。",
+                btnExploreServices: "探索核心引擎",
+                btnLearnMore: "了解更多 & 注册",
+                // Services Section (Agents)
+                servicesTitle: "核心引擎：六大Agent驱动的智能工作流",
+                servicesSubtitle: "从准备、匹配、互动到投后，我们的Agent覆盖了融资的全生命周期。",
+                agentBP: "智能BP助手",
+                agentBPDesc: "将您的商业计划，智能转化为符合国际标准的顶尖投资故事。",
+                agentCoach: "AI路演教练",
+                agentCoachDesc: "提供实战模拟，扫除知识盲区，让您自信面对投资人。",
+                agentMatcher: "智能匹配引擎",
+                agentMatcherDesc: "基于深度数据，为投融双方精准发现机会，过滤95%的噪音。",
+                agentButler: "交互流程管家",
+                agentButlerDesc: "自动化管理邀约、会议和流程，作为智能中枢驱动交易前进。",
+                agentDigitalHuman: "AI数字人路演",
+                agentDigitalHumanDesc: "为项目创建一个“数字人分身”，投资人可随时进行初步尽调问答。",
+                agentPostInvest: "智能投后管理",
+                agentPostInvestDesc: "交易后的长期价值创造伙伴，提供标准化的报告、洞察与预警。",
+                // For Whom Section
+                forWhomTitle: "我们为谁服务？",
+                forWhomEnterpriseTitle: "出海创业者",
+                forWhomEnterpriseDesc: "寻求海外市场拓展和融资的中国创新企业、高成长性公司。无论您处于种子轮、成长期还是扩张期，我们都能提供助力。",
+                forWhomEnterpriseBtn: "创业者开始使用",
+                forWhomInvestorTitle: "全球投资人",
+                forWhomInvestorDesc: "寻找中国优质出海项目、寻求战略合作的全球风险投资机构、私募股权基金、产业投资者及跨国企业。",
+                forWhomInvestorBtn: "投资人开始使用",
+                // Pricing Section
+                pricingTitle: "商业模式：订阅 + 分成",
+                pricingSubtitle: "我们将可扩展的SaaS收入与高利润的成功费相结合，以实现价值捕获最大化。",
+                pricingSaaS: "SaaS订阅 (获取引擎)",
+                pricingSaaSDesc: "为创业者和投资人提供不同层级的订阅套餐，获取高级AI工具和特权，构建稳定现金流。",
+                pricingSaaS1: "创业者基础版/专业版",
+                pricingSaaS2: "投资人高级/机构版",
+                pricingEnterpriseBtn: "查看订阅方案",
+                pricingSuccessFee: "生态服务分成 (利润引擎)",
+                pricingSuccessFeeDesc: "为平台上的优质项目，对接我们认证的深度融资、法务、财税等线下专家网络。我们从中获取成功佣金或服务分成。",
+                pricingSuccessFee1: "融资成功费 (FA Service)",
+                pricingSuccessFee2: "增值服务分成",
+                pricingInvestorBtn: "了解合作模式",
+                // How It Works Section
+                howTitle: "一场双向奔赴的价值之旅",
+                howSubtitle: "我们不仅赋能创业者，更在重塑投资人的工作效率。这是一个为双方共同设计的闭环生态。",
+                howStep1Title: "🚀 创业者之旅",
+                howStep1_1: "<strong>价值创造:</strong> 用智能BP助手将想法转化为顶尖投资故事。",
+                howStep1_2: "<strong>机会链接:</strong> 接收全球精准匹配，用交互管家管理流程。",
+                howStep1_3: "<strong>价值实现:</strong> 融资成功后，用智能投后工具管理投资人关系。",
+                howStep2Title: "💼 投资人之旅",
+                howStep2_1: "<strong>高效筛选:</strong> 接收AI预筛选项目流，用数字人进行异步尽调。",
+                howStep2_2: "<strong>深度决策:</strong> 对感兴趣项目，一键发起会议或资料邀约。",
+                howStep2_3: "<strong>组合管理:</strong> 在标准化看板上，轻松管理所有被投项目表现。",
+                // Contact Section
+                contactTitle: "即刻启程，链接全球机遇",
+                contactDesc: "无论您是寻求海外发展的中国企业，还是寻找优质投资机会的海外资本，WarrenT AI都是您值得信赖的伙伴。",
+                contactBtn: "立即开始",
+                // Footer
+                footerRights: "© 2024 WarrenT AI. 多Agent构建的出海投融资生态网络. 保留所有权利.",
+                footerPrivacy: "隐私政策",
+                footerTerms: "服务条款",
+                // Login Modal
+                loginModalTitle: "请选择登录身份",
+                loginModalEnt: "我是出海创业者",
+                loginModalInv: "我是全球投资人",
+                btnCancel: "取消",
+                 // Enterprise Dashboard
+                entNavInvestorPool: "投资人库",
+                entNavFundraisingPrep: "融资准备",
+                entNavButler: "交互流程管家",
+                entNavPostInvest: "智能投后管理",
+                entNavSettings: "账户设置",
+                entSidebarCompany: "企业: ",
+                entSidebarLogout: "退出登录",
+                notifications: "通知",
+                help: "帮助",
+                entOnboardingWelcome: "欢迎来到WarrenT AI！",
+                entOnboardingPrompt1: " 您的项目资料似乎尚未完善。",
+                entOnboardingPrompt2: "立即进入“融资准备”",
+                entOnboardingPrompt3: "，以获得更精准的投资人推荐。",
+                entInvestorPoolTitle: "投资人库 (由智能匹配引擎驱动)",
+                entInvestorPoolDesc: "根据您的项目特点和投资人偏好，我们为您推荐以下可能感兴趣的投资人/机构。",
+                filterStage: "投资阶段偏好",
+                filterIndustry: "行业领域偏好",
+                filterRegion: "地区偏好",
+                btnFilter: "筛选",
+                btnFiltering: "筛选中...",
+                investorFocusStage: "关注阶段:",
+                investorFocusIndustry: "关注行业:",
+                btnViewDetails: "查看详情",
+                entProjectTabInfo: "项目信息",
+                entProjectTabAITools: "AI 融资工具",
+                entProjectTabReports: "报告与文件",
+                entProjectInfoTitle: "我的项目信息",
+                entProjectInfoDesc: "请尽可能详细地填写您的项目信息，这将帮助AI为您生成更精准的报告，并提高投资人匹配的成功率。标 * 为必填项。",
+                formLegendBasic: "基础信息",
+                formProjectName: "项目名称 *",
+                formCompanyName: "公司法定名称",
+                formOneLiner: "一句话介绍 (Slogan) *",
+                formLegendProblem: "问题与方案",
+                formProblem: "解决的核心痛点 *",
+                formSolution: "解决方案与核心产品 *",
+                formLegendMarket: "市场与商业模式",
+                formTargetMarket: "目标市场描述 *",
+                formBusinessModel: "商业模式 *",
+                formLegendProgress: "进展与团队",
+                formTraction: "核心运营数据 (用于生成摘要卡片)",
+                formTractionPlaceholder: "例如：月活用户(MAU): 10万, 月度经常性收入(MRR): $5万, 用户留存率: 40%",
+                formTeam: "核心团队介绍",
+                formLegendFunding: "融资需求",
+                formFundingStage: "当前融资阶段 *",
+                formSelect: "请选择",
+                stageSeed: "种子轮",
+                stagePreA: "Pre-A轮",
+                stageA: "A轮",
+                formFundingSought: "本轮融资需求",
+                formFundingSoughtPlaceholder: "例如: $2M USD",
+                formLegendAttachments: "附件材料 (安全数据保险库)",
+                formPitchDeck: "商业计划书 (BP/Pitch Deck)",
+                formUploadSecure: "🔒 上传至您的安全数据保险库，仅在您授权下通过安全阅览模式分享。",
+                formVideoPitch: "路演视频 (可选, 用于AI播报)",
+                btnSaveProject: "保存项目信息",
+                btnSaving: "保存中...",
+                feedbackSaved: "保存成功！",
+                entAIToolsTitle: "AI 融资工具 (Agent)",
+                entAIToolsDesc: "调用您的专属Agent，为您的项目全面赋能。",
+                btnGenerating: "生成中...",
+                agentBPDescInApp: "基于您填写的项目信息，自动生成符合国际标准的BP初稿、估值模型和市场分析，构建您的投资故事。",
+                agentCoachDescInApp: "上传您的BP，与AI进行问答模拟。AI将扮演不同风格的投资人，向您提问并提供反馈，帮您自信应对挑战。",
+                agentDigitalHumanDescInApp: "为您的项目生成一个可7x24小时工作的“数字人分身”，用于投资人的异步初步尽调，极大提升沟通效率。",
+                entReportsTitle: "报告与文件库",
+                entReportsDesc: "所有AI生成的报告和您上传的补充资料将在此列出。",
+                entReportsGenerated: "AI 生成的报告:",
+                actionDownload: "下载",
+                actionPreview: "预览",
+                entConnectionTitle: "交互流程管家",
+                entConnectionDesc: "查看已通过平台匹配或接触的投资人，管理沟通状态。",
+                tableHeaderInvestor: "投资人/机构 (ID)",
+                tableHeaderStatus: "当前状态",
+                tableHeaderUpdate: "最新沟通",
+                tableHeaderActions: "操作",
+                statusBPSent: "已发送BP, 待反馈",
+                statusDeclined: "已婉拒",
+                actionViewLog: "查看记录",
+                statusBPRequested: "请求查看完整BP",
+                actionApprove: "同意发送",
+                actionDecline: "婉拒",
+                statusBPViewed: "投资人已查看BP",
+                actionRequestContact: "请求交换联系方式",
+                entSettingsTabProfile: "公司与联系人",
+                entSettingsTabSecurity: "安全与通知",
+                entSettingsTabOrders: "订单与发票",
+                formLegendCompanyInfo: "公司信息",
+                formLegalName: "工商注册名称 (不可修改)",
+                formPrimaryEmail: "主要联系邮箱",
+                btnUpdate: "更新",
+                formLegendSecurity: "账户安全",
+                formCurrentPassword: "当前密码",
+                formNewPassword: "新密码",
+                btnUpdatePassword: "更新密码",
+                entOrdersTitle: "订单管理",
+                tableHeaderOrderID: "订单ID",
+                tableHeaderService: "服务名称",
+                tableHeaderAmount: "金额",
+                tableHeaderDate: "日期",
+                serviceValuationReport: "AI企业估值报告",
+                statusCompleted: "已完成",
+                actionDownloadInvoice: "下载发票",
+                irTitle: "智能投后管理",
+                irDesc: "请定期向您的投资人提交运营数据和进展。透明、及时的沟通是建立信任的关键。Agent将为您提供洞察与预警。",
+                irFormLegendNew: "提交新报告",
+                formReportingPeriod: "报告期 *",
+                formReportingPeriodPlaceholder: "例如: 2024 Q1",
+                formMRR: "月度经常性收入 (MRR)",
+                formMAU: "月活跃用户 (MAU)",
+                formBurnRate: "月度净消耗 (Net Burn)",
+                formRunway: "现金跑道 (Cash Runway)",
+                formRunwayPlaceholder: "（月）",
+                formHighlights: "本期亮点、挑战与求助 *",
+                formHighlightsPlaceholder: "简要描述业务进展、遇到的问题，以及希望投资人提供的帮助。",
+                formDetailedReport: "上传详细报告 (PDF)",
+                btnSubmitUpdate: "提交更新",
+                btnSubmitting: "提交中...",
+                feedbackSubmitted: "提交成功！",
+                irHistoryTitle: "历史报告",
+                tableHeaderPeriod: "报告期",
+                tableHeaderSubmitDate: "提交日期",
+                actionView: "查看",
+                // Investor Dashboard
+                invNavDiscovery: "项目发现",
+                invNavButler: "交互流程管家",
+                invNavPortfolio: "智能投后管理",
+                invNavProfile: "投资人信息",
+                invNavSettings: "账户设置",
+                invSidebarInstitution: "机构: ",
+                invSidebarLogout: "退出登录",
+                invOnboardingWelcome: "欢迎来到WarrenT AI！",
+                invOnboardingPrompt1: " 为了给您推荐最相关的项目，请先",
+                invOnboardingPrompt2: "完善您的投资人信息与偏好",
+                invStatNew: "个新匹配项目",
+                invStatWatchlist: "个关注有更新",
+                invStatPending: "个待处理对接",
+                invDiscoveryTabDiscover: "发现项目",
+                invDiscoveryTabWatchlist: "我的关注",
+                filterKeyword: "关键词搜索...",
+                projectBrief: "简介:",
+                btnWatch: "关注",
+                btnWatching: "关注中...",
+                invWatchlistDesc: "追踪您已关注的项目。",
+                tagUpdated: "(有更新)",
+                btnUnwatch: "取消关注",
+                invMatchingTitle: "交互流程管家",
+                invMatchingDesc: "管理您与项目方的沟通记录和对接进度。",
+                tableHeaderProjectName: "项目名称 (ID)",
+                tableHeaderCompany: "企业名称",
+                statusBPReceived: "已获取BP，待查看",
+                actionViewBP: "查看BP",
+                statusConnectionRequest: "企业请求对接",
+                statusConnectionAccepted: "已接受，待安排会议",
+                actionViewBrief: "查看简报",
+                actionAccept: "接受",
+                statusAIPitchPending: "AI播报演示待确认",
+                actionConfirmTime: "确认时间",
+                invProfileTitle: "投资人信息与偏好",
+                invProfileDesc: "请完善您的机构信息及投资偏好，这将帮助我们的“智能匹配引擎”更精准地为您推荐项目。标 * 为必填项。",
+                formLegendInvestorInfo: "机构/个人信息",
+                formInvestorName: "投资人/机构名称 *",
+                formInvestorType: "投资人类型 *",
+                investorTypeAngel: "天使投资人",
+                investorTypeCVC: "CVC(企业战投)",
+                formWebsite: "机构网址",
+                formLegendPreference: "投资偏好",
+                formPrefStage: "偏好投资阶段 * (可多选)",
+                stageB: "B轮及以后",
+                formPrefIndustry: "偏好行业领域 * (可多选)",
+                industrySaaS: "企业SaaS",
+                industryAI: "AI/机器学习",
+                industryEcom: "跨境电商",
+                formPrefRegion: "偏好地域市场 * (可多选)",
+                regionNA: "北美",
+                regionSEA: "东南亚",
+                regionEU: "欧洲",
+                regionME: "中东",
+                formCheckSize: "单笔典型投资金额范围 *",
+                formLegendIntro: "投资简介与案例",
+                formThesis: "投资逻辑/机构介绍 (Thesis)",
+                formThesisPlaceholder: "简述您的投资策略、关注的核心要素等。",
+                formValueAdd: "我们的增值服务 (Value Add)",
+                formValueAddPlaceholder: "除了资金，您还能为被投企业提供哪些帮助？例如：行业资源、市场渠道、人才招聘等。",
+                formPortfolio: "代表性公开投资案例",
+                formPortfolioPlaceholder: "列举1-3个有代表性的已投项目（公开信息），可简述投资逻辑。",
+                btnSaveChanges: "保存偏好与信息",
+                invSettingsTabSecurity: "安全与通知",
+                invSettingsTabSub: "订阅与账单",
+                invSubTitle: "订阅服务",
+                subPlanBasic: "基础版 (当前计划)",
+                subPlanPro: "专业版",
+                btnUpgradePro: "升级专业版",
+                portfolioTitle: "智能投后管理",
+                portfolioDesc: "追踪您已投资项目的关键指标和最新进展。数据由项目方定期更新，由Agent提供洞察。",
+                portfolioTableHeaderMetrics: "关键指标 (最新)",
+                metricMRR: "MRR:",
+                metricRunway: "现金跑道:",
+                metricMAU: "MAU:",
+                metricBurnRate: "月净消耗:",
+                statusOnTrack: "正常",
+                statusNeedsAttention: "需关注",
+                statusAtRisk: "高风险",
+                actionViewReport: "查看报告",
+                // Modals
+                modalBtnRunValuation: "⚖️ 运行AI估值",
+                modalBtnGenAnalysis: "📈 生成赛道分析",
+                feedbackActionSent: "操作已模拟！",
+                modalMetricStage: "融资阶段",
+                modalMetricSought: "目标融资金额",
+                modalMetricMarket: "目标市场",
+                modalMetricIndustry: "行业赛道",
+                modalSectionProblem: "痛点与机遇",
+                modalSectionSolution: "解决方案",
+                modalSectionTraction: "市场表现与牵引力",
+                modalSectionTeam: "团队背景 (脱敏)",
+                modalBtnAddToWatchlist: "⭐ 加入关注",
+                modalBtnRequestAIPitch: "🎥 预约AI数字人",
+                modalBtnRequestBP: "请求查看完整BP",
+                modalSectionThesis: "投资逻辑 (Thesis)",
+                modalMetricPrefStage: "偏好阶段",
+                modalMetricPrefIndustry: "偏好行业",
+                modalMetricPrefRegion: "偏好区域",
+                modalMetricCheckSize: "单笔投资规模",
+                modalSectionValueAdd: "我们的增值服务 (Value Add)",
+                modalSectionPortfolio: "代表性投资组合 (公开信息)",
+                modalBtnSendAIPitch: "发送AI数字人",
+                modalBtnSendBP: "发送BP并请求对接",
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('language') || 'zh'; // Default to Chinese
+
+        function setLanguage(lang) {
+            if (!i18n[lang]) return;
+            currentLanguage = lang;
+            localStorage.setItem('language', lang); // Save user's choice
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (i18n[lang][key]) {
+                     if(element.hasAttribute('data-i18n-base')) {
+                        const baseText = element.getAttribute('data-i18n-base');
+                        element.innerHTML = `${baseText}<strong>${i18n[lang][key]}</strong>`;
+                    } else {
+                        element.innerHTML = i18n[lang][key];
+                    }
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (i18n[lang][key]) {
+                    element.placeholder = i18n[lang][key];
+                }
+            });
+             document.querySelectorAll('[data-i18n-title]').forEach(element => {
+                const key = element.getAttribute('data-i18n-title');
+                if (i18n[lang][key]) {
+                    element.title = i18n[lang][key];
+                }
+            });
+            document.title = i18n[lang].pageTitle;
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+
+            document.querySelectorAll('.lang-switcher a').forEach(a => {
+                a.classList.remove('active');
+                if (a.classList.contains(`lang-${lang}`)) {
+                    a.classList.add('active');
+                }
+            });
+            if (enterpriseDashboardWrapper.style.display === 'flex') {
+                initializeEnterpriseDashboard(true);
+            }
+            if (investorDashboardWrapper.style.display === 'flex') {
+                initializeInvestorDashboard(true);
+            }
+        }
+
+        // --- DASHBOARD & PAGE NAVIGATION LOGIC ---
+        const landingPageNavLinks = document.querySelectorAll('#mainNav a'); const landingPageSections = document.querySelectorAll('#landingPageWrapper main section[id]'); const landingPageNavbar = document.querySelector('.navbar'); function changeLandingPageNav(targetId) { if (!targetId) return; landingPageNavLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href') === `#${targetId}`) { link.classList.add('active'); } }); }
+        window.addEventListener('scroll', () => { if (document.getElementById('landingPageWrapper').style.display !== 'none') { let current = ''; const headerOffset = landingPageNavbar ? landingPageNavbar.offsetHeight + 10 : 70; landingPageSections.forEach(section => { const sectionTop = section.offsetTop - headerOffset; if (window.pageYOffset >= sectionTop) { current = section.getAttribute('id'); } }); if (current) { changeLandingPageNav(current); } else if (window.pageYOffset < (landingPageSections.length > 0 ? landingPageSections[0].offsetTop - headerOffset : 50)) { if (landingPageNavLinks.length > 0) changeLandingPageNav(landingPageNavLinks[0].getAttribute('href').substring(1)); } } });
+        document.querySelectorAll('#landingPageWrapper a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function (e) { const href = this.getAttribute('href'); if (href.startsWith("#") && href.length > 1) { const targetId = href.substring(1); const targetElement = document.getElementById(targetId); if (targetElement && landingPageSections && Array.from(landingPageSections).includes(targetElement)) { e.preventDefault(); const headerOffset = landingPageNavbar ? landingPageNavbar.offsetHeight : 70; const elementPosition = targetElement.getBoundingClientRect().top; const offsetPosition = elementPosition + window.pageYOffset - headerOffset; window.scrollTo({ top: offsetPosition, behavior: "smooth" }); changeLandingPageNav(targetId); } } }); });
+        function initialLandingPageNavCheck() { if (document.getElementById('landingPageWrapper').style.display !== 'none') { let currentHash = window.location.hash.substring(1); if (!currentHash && landingPageSections.length > 0) { const firstSectionTop = landingPageSections[0].offsetTop - ( (landingPageNavbar ? landingPageNavbar.offsetHeight : 70) + 10); if (window.pageYOffset <= firstSectionTop) { currentHash = landingPageNavLinks[0].getAttribute('href').substring(1); } else { window.dispatchEvent(new Event('scroll')); return; } } if (currentHash) changeLandingPageNav(currentHash); else if (landingPageNavLinks.length > 0 && landingPageSections.length > 0) landingPageNavLinks[0].classList.add('active'); } }
+        window.addEventListener('load', initialLandingPageNavCheck); function showLoginOptions() { document.getElementById('loginOptionsModal').style.display = 'flex'; }
+        
+        let enterpriseSections, enterpriseNavLinks, enterprisePageTitleEl; let investorSections, investorNavLinks, investorPageTitleEl;
+        function switchDashboardSection(sectionId, sections, navLinks, pageTitleEl, onSwitchCallback) { if (!sections || !navLinks || !pageTitleEl) return; sections.forEach(section => { section.style.display = (section.id === sectionId) ? 'block' : 'none'; }); navLinks.forEach(link => { link.classList.remove('active'); if (link.dataset.section === sectionId) { link.classList.add('active'); pageTitleEl.textContent = link.querySelector('span:last-child').textContent.trim(); } }); if (onSwitchCallback) onSwitchCallback(sectionId); }
+        function switchTab(clickedButton, tabId, parentSelector) { const parentElement = document.querySelector(parentSelector); if (!parentElement) return; parentElement.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active')); parentElement.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active')); const targetTab = parentElement.querySelector(`#${tabId}`); if(targetTab) targetTab.classList.add('active'); if(clickedButton) clickedButton.classList.add('active'); }
+        
+        function showEnterpriseSection(sectionId) { switchDashboardSection(sectionId, enterpriseSections, enterpriseNavLinks, enterprisePageTitleEl, (id) => { if (id === 'myProject') { switchEnterpriseProjectTab(document.querySelector('#myProject .tab-button'), 'projectInfoTab'); } else if (id === 'accountSettings') { switchEnterpriseSettingsTab(document.querySelector('#accountSettings .tab-button'), 'accountProfileTab'); } }); }
+        function switchEnterpriseProjectTab(btn, tabId) { switchTab(btn, tabId, '#myProject'); }
+        function switchEnterpriseSettingsTab(btn, tabId) { switchTab(btn, tabId, '#accountSettings'); }
+        function toggleEnterpriseSidebar() { document.getElementById('enterpriseSidebarMenu').classList.toggle('open'); }
+        function initializeEnterpriseDashboard(isLanguageUpdate = false) {
+            if (!isLanguageUpdate) {
+                enterpriseSections = document.querySelectorAll('#enterpriseDashboardWrapper .enterprise-dashboard-section');
+                enterpriseNavLinks = document.querySelectorAll('#enterpriseSidebarMenu nav a');
+                enterprisePageTitleEl = document.getElementById('enterprisePageTitle');
+                enterpriseNavLinks.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); showEnterpriseSection(link.dataset.section); }); });
+                showEnterpriseSection('investorPool');
+            }
+            const companyName = null;
+            const companyDisplayName = companyName || (currentLanguage === 'zh' ? '访客用户' : 'Guest User');
+            document.getElementById('enterpriseSidebarCompanyName').innerHTML = `${i18n[currentLanguage].entSidebarCompany}<strong>${companyDisplayName}</strong>`; 
+            document.getElementById('enterpriseWelcomeUser').textContent = `${(currentLanguage === 'zh' ? '欢迎, ' : 'Welcome, ')} ${companyName || (currentLanguage === 'zh' ? '您' : 'You')}`; 
+            document.getElementById('enterpriseOnboardingPrompt').style.display = companyName ? 'block' : 'none';
+            document.getElementById('enterpriseOnboardingPrompt').classList.remove('hidden');
+        }
+
+        function showInvestorSection(sectionId) { switchDashboardSection(sectionId, investorSections, investorNavLinks, investorPageTitleEl, (id) => { if (id === 'projectDiscovery') { switchInvestorDiscoveryTab(document.querySelector('#projectDiscovery .tab-button'), 'discoverTab'); } else if (id === 'accountSettingsInvestor') { switchInvestorSettingsTab(document.querySelector('#accountSettingsInvestor .tab-button'), 'investorSecurityTab'); } }); }
+        function switchInvestorDiscoveryTab(btn, tabId) { switchTab(btn, tabId, '#projectDiscovery'); }
+        function switchInvestorSettingsTab(btn, tabId) { switchTab(btn, tabId, '#investorSubscriptionTab'); }
+        function toggleInvestorSidebar() { document.getElementById('investorSidebarMenu').classList.toggle('open'); }
+        function initializeInvestorDashboard(isLanguageUpdate = false) {
+            if (!isLanguageUpdate) {
+                investorSections = document.querySelectorAll('#investorDashboardWrapper .investor-dashboard-section');
+                investorNavLinks = document.querySelectorAll('#investorSidebarMenu nav a');
+                investorPageTitleEl = document.getElementById('investorPageTitle');
+                investorNavLinks.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); showInvestorSection(link.dataset.section); }); });
+                showInvestorSection('projectDiscovery');
+            }
+            const institutionName = null;
+            const institutionDisplayName = institutionName || (currentLanguage === 'zh' ? '访客用户' : 'Guest User');
+            document.getElementById('investorSidebarInstitutionName').innerHTML = `${i18n[currentLanguage].invSidebarInstitution}<strong>${institutionDisplayName}</strong>`;
+            document.getElementById('investorWelcomeInvestor').textContent = `${(currentLanguage === 'zh' ? '欢迎, ' : 'Welcome, ')} ${institutionName || (currentLanguage === 'zh' ? '您' : 'You')}`;
+            document.getElementById('investorOnboardingPrompt').style.display = institutionName ? 'block' : 'none';
+            document.getElementById('investorOnboardingPrompt').classList.remove('hidden');
+        }
+
+        const landingPageWrapper = document.getElementById('landingPageWrapper'); const enterpriseDashboardWrapper = document.getElementById('enterpriseDashboardWrapper'); const investorDashboardWrapper = document.getElementById('investorDashboardWrapper'); const loginModal = document.getElementById('loginOptionsModal');
+        function navigateToEnterpriseDashboard() { landingPageWrapper.style.display = 'none'; investorDashboardWrapper.style.display = 'none'; enterpriseDashboardWrapper.style.display = 'flex'; loginModal.style.display = 'none'; window.scrollTo(0, 0); initializeEnterpriseDashboard(); }
+        function navigateToInvestorDashboard() { landingPageWrapper.style.display = 'none'; enterpriseDashboardWrapper.style.display = 'none'; investorDashboardWrapper.style.display = 'flex'; loginModal.style.display = 'none'; window.scrollTo(0, 0); initializeInvestorDashboard(); }
+        function navigateToLandingPage() { enterpriseDashboardWrapper.style.display = 'none'; investorDashboardWrapper.style.display = 'none'; landingPageWrapper.style.display = 'block'; loginModal.style.display = 'none'; window.scrollTo(0, 0); initialLandingPageNavCheck(); }
+        
+        // --- MODAL SCRIPT WITH MOCK DATA ---
+        const projectModal = document.getElementById('projectDetailModal'); const investorModal = document.getElementById('investorDetailModal');
+        const mockProjectData = {
+            'p00123': { name: { zh: '智能环保回收方案', en: 'Smart Environmental Recycling Solution' }, oneLiner: { zh: '基于物联网和AI图像识别的智能垃圾分类与回收平台。', en: 'An intelligent waste sorting and recycling platform based on IoT and AI image recognition.' }, stage: { zh: 'A轮', en: 'Series A' }, sought: { zh: '$3M - $5M USD', en: '$3M - $5M USD' }, market: { zh: '欧洲, 东南亚', en: 'Europe, Southeast Asia' }, industry: { zh: '环保科技, AI, ESG', en: 'CleanTech, AI, ESG' }, problem: { zh: '城市生活垃圾管理效率低下，分类困难，回收价值未能充分利用。传统的回收模式人力成本高、监控难，导致资源浪费和环境污染。', en: 'Urban waste management is inefficient, sorting is difficult, and the value of recyclables is not fully utilized. Traditional recycling models have high labor costs and poor monitoring, leading to resource waste and environmental pollution.' }, solution: { zh: '我们提供软硬件一体化的解决方案：前端部署带有AI视觉识别的智能回收箱，自动分类高价值可回收物；后端通过SaaS平台优化回收路线，连接回收企业，实现数据驱动的精细化运营，提升整体回收效率和盈利能力。', en: 'We provide an integrated hardware and software solution: smart recycling bins with AI visual recognition are deployed at the front end to automatically sort high-value recyclables; a SaaS platform at the back end optimizes collection routes and connects recycling companies, enabling data-driven operations to improve overall efficiency and profitability.' }, traction: [{ zh: '已在2个试点城市成功部署超过500个智能回收点。', en: 'Successfully deployed over 500 smart recycling points in 2 pilot cities.' }, { zh: '与当地最大的两家环保企业达成战略合作。', en: 'Formed strategic partnerships with the two largest local environmental companies.' }, { zh: '平台回收物价值转化率相比传统模式提升35%。', en: 'Increased the value conversion rate of recyclables by 35% compared to traditional models.' }, { zh: '月活跃家庭超过5万户。', en: 'Monthly active households exceed 50,000.' }], team: { zh: '核心团队由环境科学、AI算法及物联网硬件领域的资深专家组成。创始人拥有10年以上环保行业创业经验，技术负责人曾主导知名科技公司的图像识别项目。', en: 'The core team consists of senior experts in environmental science, AI algorithms, and IoT hardware. The founder has over 10 years of entrepreneurial experience in the environmental sector, and the CTO previously led image recognition projects at a well-known tech company.' } },
+            'p00456': { name: { zh: '企业级SaaS协作工具', en: 'Enterprise-grade SaaS Collaboration Tool' }, oneLiner: { zh: '新一代项目管理与团队协作SaaS平台，主打极致用户体验和AI驱动的自动化流程。', en: 'A next-generation project management and team collaboration SaaS platform, focusing on ultimate user experience and AI-driven automation.' }, stage: { zh: 'Pre-A轮', en: 'Pre-A' }, sought: { zh: '$1M - $1.5M USD', en: '$1M - $1.5M USD' }, market: { zh: '北美', en: 'North America' }, industry: { zh: '企业服务, SaaS, AI', en: 'Enterprise Services, SaaS, AI' }, problem: { zh: '现有协作工具要么功能臃肿、上手困难，要么过于简单无法满足成长型企业的复杂需求。团队成员在任务分配、进度追踪和跨部门沟通上耗费大量时间，影响效率。', en: 'Existing collaboration tools are either bloated and difficult to use, or too simple to meet the complex needs of growing companies. Team members spend excessive time on task assignment, progress tracking, and cross-departmental communication, which impacts efficiency.' }, solution: { zh: '我们的产品以简洁直观的设计降低使用门槛，同时提供强大的自定义工作流和自动化规则引擎。AI助手能根据项目内容智能推荐任务模板、预测风险、并自动生成周报，让团队专注于创造性工作。', en: 'Our product features a clean, intuitive design to lower the learning curve, while providing powerful custom workflows and an automation rule engine. An AI assistant can intelligently recommend task templates, predict risks, and auto-generate weekly reports, allowing teams to focus on creative work.' }, traction: [{ zh: '上线6个月，MRR（月度经常性收入）已超过 $50K USD。', en: 'Reached over $50K USD in MRR (Monthly Recurring Revenue) within 6 months of launch.' }, { zh: '付费用户周活跃度(WAU)高达65%。', en: 'Achieved a Weekly Active User (WAU) rate of 65% among paid users.' }, { zh: '获得多家知名科技博客和产品社区的推荐。', en: 'Featured and recommended by several well-known tech blogs and product communities.' }, { zh: '客户净推荐值(NPS)为58。', en: 'Customer Net Promoter Score (NPS) is 58.' }], team: { zh: '创始人为前硅谷大厂产品总监，对企业软件有深刻理解。核心开发团队成员均来自一线互联网公司，在SaaS产品开发和用户增长方面经验丰富。', en: 'The founder is a former Product Director from a major Silicon Valley company with deep expertise in enterprise software. The core development team members are from top-tier internet companies with extensive experience in SaaS product development and user growth.' } }
+        };
+        const mockInvestorData = {
+            'inv001': { name: { zh: '远航资本', en: 'Voyage Capital' }, type: { zh: '风险投资基金', en: 'Venture Capital Fund' }, thesis: { zh: '我们专注于投资那些具有全球化潜力的早期科技公司，特别是那些利用技术解决出海过程中关键痛点的SaaS、AI和Fintech项目。', en: 'We focus on investing in early-stage tech companies with global potential, especially those in SaaS, AI, and Fintech that solve critical pain points in the go-global process.' }, stages: { zh: '种子轮, Pre-A轮', en: 'Seed, Pre-A' }, industries: { zh: '企业SaaS, AI应用, 出海服务', en: 'Enterprise SaaS, AI Applications, Go-Global Services' }, regions: { zh: '东南亚, 北美', en: 'Southeast Asia, North America' }, checkSize: { zh: '$500K - $2M USD', en: '$500K - $2M USD' }, valueAdd: { zh: '除了资金，我们为被投企业提供深度的出海战略咨询、本地化资源对接以及后续融资支持。', en: 'Beyond capital, we provide our portfolio companies with in-depth go-global strategy consulting, local resource matching, and follow-on fundraising support.' }, portfolio: { zh: '已投项目包括东南亚领先的电商SaaS服务商、一家进入北美市场的AI营销科技公司等。(注: 此处仅展示公开信息或行业描述)', en: 'Our portfolio includes a leading e-commerce SaaS provider in Southeast Asia and an AI marketing tech company that has entered the North American market. (Note: Only public information or industry descriptions are shown here).' } },
+            'inv002': { name: { zh: '环球增长基金', en: 'Global Growth Fund' }, type: { zh: '私募股权基金', en: 'Private Equity Fund' }, thesis: { zh: '我们寻找处于成长期、商业模式已得到验证并寻求全球扩张的企业。我们重点关注能够通过技术创新和高效运营改造传统行业的领域。', en: 'We seek growth-stage companies with proven business models looking for global expansion. We focus on sectors where technology and operational efficiency can transform traditional industries.' }, stages: { zh: 'A轮, B轮, 成长轮', en: 'Series A, Series B, Growth Stage' }, industries: { zh: '电商, 物流, 清洁能源', en: 'E-commerce, Logistics, Clean Energy' }, regions: { zh: '全球 (重点欧洲、中东)', en: 'Global (focus on Europe, Middle East)' }, checkSize: { zh: '$10M - $50M USD', en: '$10M - $50M USD' }, valueAdd: { zh: '我们拥有强大的全球产业资源网络，能够帮助企业打通国际供应链、建立海外销售渠道，并提供并购整合(M&A)的专业支持。', en: 'We have a strong global network of industry resources to help companies build international supply chains, establish overseas sales channels, and provide professional M&A support.' }, portfolio: { zh: '投资组合包括一家欧洲上市的DTC消费品牌，一家中东领先的物流科技公司等。(注: 此处仅展示公开信息或行业描述)', en: 'Our portfolio includes a publicly listed European DTC consumer brand and a leading logistics tech company in the Middle East. (Note: Only public information or industry descriptions are shown here).' } },
+        };
+        function openProjectModal(projectId) { const data = mockProjectData[projectId]; if (!data || !projectModal) return; document.getElementById('modalProjectName').textContent = data.name[currentLanguage]; document.getElementById('modalProjectOneLiner').textContent = data.oneLiner[currentLanguage]; document.getElementById('modalProjectStage').textContent = data.stage[currentLanguage]; document.getElementById('modalProjectSought').textContent = data.sought[currentLanguage]; document.getElementById('modalProjectMarket').textContent = data.market[currentLanguage]; document.getElementById('modalProjectIndustry').textContent = data.industry[currentLanguage]; document.getElementById('modalProjectProblem').textContent = data.problem[currentLanguage]; document.getElementById('modalProjectSolution').textContent = data.solution[currentLanguage]; document.getElementById('modalProjectTeam').textContent = data.team[currentLanguage]; const tractionList = document.getElementById('modalProjectTraction'); tractionList.innerHTML = ''; data.traction.forEach(item => { const li = document.createElement('li'); li.textContent = item[currentLanguage]; tractionList.appendChild(li); }); projectModal.style.display = 'flex'; }
+        function openInvestorModal(investorId) { const data = mockInvestorData[investorId]; if (!data || !investorModal) return; document.getElementById('modalInvestorName').textContent = data.name[currentLanguage]; document.getElementById('modalInvestorType').textContent = data.type[currentLanguage]; document.getElementById('modalInvestorThesis').textContent = data.thesis[currentLanguage]; document.getElementById('modalInvestorStages').textContent = data.stages[currentLanguage]; document.getElementById('modalInvestorIndustries').textContent = data.industries[currentLanguage]; document.getElementById('modalInvestorRegions').textContent = data.regions[currentLanguage]; document.getElementById('modalInvestorCheckSize').textContent = data.checkSize[currentLanguage]; document.getElementById('modalInvestorValueAdd').textContent = data.valueAdd[currentLanguage]; document.getElementById('modalInvestorPortfolio').textContent = data.portfolio[currentLanguage]; investorModal.style.display = 'flex'; }
+        function closeModal(event) { if(projectModal.contains(event.target) || investorModal.contains(event.target)) { if(!event.target.classList.contains('modal-close')) return; } projectModal.style.display = 'none'; investorModal.style.display = 'none'; }
+
+        // --- NEW: ADVANCED INTERACTIVE SIMULATIONS ---
+        
+        // Helper function for button loading states
+        function showButtonLoading(button, loadingTextKey) {
+            button.disabled = true;
+            button.dataset.originalText = button.innerHTML;
+            button.innerHTML = `<span>${i18n[currentLanguage][loadingTextKey] || '...'}</span>`;
+        }
+
+        function revertButtonState(button, feedbackTextKey, duration = 1500) {
+            if (feedbackTextKey) {
+                 button.innerHTML = `<span>${i18n[currentLanguage][feedbackTextKey]}</span>`;
+                 button.style.backgroundColor = 'var(--success-color)';
+            }
+            setTimeout(() => {
+                button.disabled = false;
+                button.innerHTML = button.dataset.originalText;
+                button.style.backgroundColor = ''; // Revert to original CSS color
+            }, duration);
+        }
+        
+        // Helper for inline form feedback
+        function showFormFeedback(feedbackEl, messageKey) {
+            feedbackEl.textContent = i18n[currentLanguage][messageKey];
+            feedbackEl.style.opacity = '1';
+            setTimeout(() => {
+                feedbackEl.style.opacity = '0';
+            }, 2500);
+        }
+
+        // Enterprise Dashboard: Save Project
+        function saveEnterpriseProject(button) {
+            const form = document.getElementById('enterpriseProjectForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            showButtonLoading(button, 'btnSaving');
+            setTimeout(() => {
+                revertButtonState(button, 'feedbackSaved');
+                
+                const projectName = document.getElementById('ep_projectName').value || (currentLanguage === 'zh' ? '新项目' : 'New Project');
+                const companyDisplayName = projectName;
+
+                // Update UI
+                document.getElementById('enterpriseSidebarCompanyName').innerHTML = `${i18n[currentLanguage].entSidebarCompany}<strong>${companyDisplayName}</strong>`;
+                document.getElementById('enterpriseWelcomeUser').textContent = `${(currentLanguage === 'zh' ? '欢迎, ' : 'Welcome, ')} ${companyDisplayName}`;
+                document.getElementById('enterpriseOnboardingPrompt').classList.add('hidden');
+
+            }, 1500);
+        }
+        
+        // Investor Dashboard: Save Profile
+        function saveInvestorProfile(button) {
+            const form = document.getElementById('investorProfileForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            showButtonLoading(button, 'btnSaving');
+            setTimeout(() => {
+                const feedbackEl = button.nextElementSibling;
+                showFormFeedback(feedbackEl, 'feedbackSaved');
+                button.disabled = false;
+                button.innerHTML = button.dataset.originalText;
+                
+                const investorName = document.getElementById('ip_investorName').value || (currentLanguage === 'zh' ? '新投资人' : 'New Investor');
+                
+                // Update UI
+                document.getElementById('investorSidebarInstitutionName').innerHTML = `${i18n[currentLanguage].invSidebarInstitution}<strong>${investorName}</strong>`;
+                document.getElementById('investorWelcomeInvestor').textContent = `${(currentLanguage === 'zh' ? '欢迎, ' : 'Welcome, ')} ${investorName}`;
+                document.getElementById('investorOnboardingPrompt').classList.add('hidden');
+            }, 1500);
+        }
+
+        // Enterprise Dashboard: Generate AI Report
+        function generateAIReport(button, reportNameZh, reportNameEn) {
+            showButtonLoading(button, 'btnGenerating');
+            setTimeout(() => {
+                revertButtonState(button, null, 500); // Revert quickly without success message
+                
+                const reportName = currentLanguage === 'zh' ? reportNameZh : reportNameEn;
+                const newReportItem = document.createElement('li');
+                newReportItem.classList.add('new-item');
+
+                const date = new Date().toISOString().split('T')[0];
+                newReportItem.innerHTML = `
+                    <span>${reportName}_${Date.now().toString().slice(-4)}.pdf</span>
+                    <span class="date">${date}</span>
+                    <a href="#" class="link-action" data-i18n="actionDownload">${i18n[currentLanguage].actionDownload}</a>`;
+                
+                document.getElementById('aiReportsList').prepend(newReportItem);
+
+                // Flash background
+                setTimeout(() => {
+                    newReportItem.classList.remove('new-item');
+                }, 2000);
+
+            }, 2000);
+        }
+        
+        // Enterprise Dashboard: Connection Management Action
+        function handleConnectionAction(element, action, investorId) {
+            const row = element.closest('tr');
+            const statusCell = row.cells[1];
+            const actionsCell = row.cells[3];
+
+            if(action === 'approve') {
+                statusCell.innerHTML = `<span style="color:var(--success-color); font-weight:bold;">${i18n[currentLanguage].statusBPSent}</span>`;
+                actionsCell.innerHTML = `<a href="#" class="link-action" data-i18n="actionViewLog">${i18n[currentLanguage].actionViewLog}</a>`;
+            } else if (action === 'decline') {
+                statusCell.innerHTML = `<span style="color:#e74c3c; font-weight:bold;">${i18n[currentLanguage].statusDeclined}</span>`;
+                actionsCell.innerHTML = `<span>-</span>`;
+            }
+        }
+        
+        // Enterprise Dashboard: Submit IR Update
+        function submitIrUpdate(button) {
+            const form = document.getElementById('irUpdateForm');
+             if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            showButtonLoading(button, 'btnSubmitting');
+
+            setTimeout(() => {
+                revertButtonState(button, 'feedbackSubmitted');
+
+                const period = document.getElementById('ir_period').value;
+                const mrr = document.getElementById('ir_mrr').value || 'N/A';
+                const mau = document.getElementById('ir_mau').value || 'N/A';
+                const date = new Date().toISOString().split('T')[0];
+
+                const tableBody = document.getElementById('irHistoryTableBody');
+                const newRow = tableBody.insertRow(0); // Insert at the top
+                newRow.classList.add('new-row');
+                newRow.innerHTML = `
+                    <td>${period}</td>
+                    <td>${date}</td>
+                    <td>${mrr}</td>
+                    <td>${mau}</td>
+                    <td><a href="#" class="link-action" data-i18n="actionView">${i18n[currentLanguage].actionView}</a></td>
+                `;
+
+                form.reset();
+
+                setTimeout(() => {
+                    newRow.classList.remove('new-row');
+                }, 2500);
+
+            }, 1500);
+        }
+        
+        // Investor Dashboard: Toggle Watchlist
+        function toggleWatchlist(button, projectId) {
+            const projectCard = button.closest('.project-card');
+            const isWatching = projectCard.parentElement.parentElement.id === 'watchlistTab';
+            
+            showButtonLoading(button, 'btnWatching');
+
+            setTimeout(() => {
+                const discoverContainer = document.querySelector('#discoverTab .project-list-container');
+                const watchlistContainer = document.querySelector('#watchlistTab .project-list-container');
+                
+                projectCard.classList.add('fading-out');
+
+                setTimeout(() => {
+                    if (isWatching) {
+                        // Unwatch
+                        button.classList.remove('btn-primary');
+                        button.classList.add('btn-outline');
+                        button.dataset.originalText = `<span data-i18n="btnWatch">${i18n[currentLanguage].btnWatch}</span>`;
+                        revertButtonState(button, null, 100);
+                        discoverContainer.prepend(projectCard);
+                    } else {
+                        // Watch
+                        button.classList.remove('btn-outline');
+                        button.classList.add('btn-primary');
+                        button.style.borderColor = 'var(--primary-color)';
+                        button.style.backgroundColor = 'var(--primary-color)';
+                        button.dataset.originalText = `<span data-i18n="btnUnwatch">${i18n[currentLanguage].btnUnwatch}</span>`;
+                        revertButtonState(button, null, 100);
+                        watchlistContainer.prepend(projectCard);
+                    }
+                     projectCard.classList.remove('fading-out');
+                }, 400);
+
+            }, 800);
+        }
+
+        // Investor Dashboard: Match Management Action
+        function handleInvestorMatchAction(element, action, projectId) {
+            const row = element.closest('tr');
+            const statusCell = row.cells[2];
+            const actionsCell = row.cells[4];
+            
+            if(action === 'accept') {
+                statusCell.innerHTML = `<span style="color:var(--success-color); font-weight:bold;">${i18n[currentLanguage].statusConnectionAccepted}</span>`;
+                actionsCell.innerHTML = `<a href="#" class="link-action" data-i18n="actionViewBP">${i18n[currentLanguage].actionViewBP}</a> <a href="#" class="link-action" data-i18n="actionConfirmTime">${i18n[currentLanguage].actionConfirmTime}</a>`;
+            } else if (action === 'decline') {
+                statusCell.innerHTML = `<span style="color:#e74c3c; font-weight:bold;">${i18n[currentLanguage].statusDeclined}</span>`;
+                actionsCell.innerHTML = `<span>-</span>`;
+            }
+        }
+        
+        // Modal Action Simulation
+        function simulateModalAction(button) {
+            const feedbackEl = button.closest('.modal-footer, .modal-ai-actions').querySelector('.action-feedback');
+            showButtonLoading(button, 'btnSaving');
+            setTimeout(() => {
+                 revertButtonState(button, null, 100);
+                 showFormFeedback(feedbackEl, 'feedbackActionSent');
+            }, 1000);
+        }
+
+        // Filter Simulation
+        function simulateFilter(button, containerSelector) {
+            showButtonLoading(button, 'btnFiltering');
+            setTimeout(() => {
+                revertButtonState(button, null, 500);
+                const container = document.querySelector(containerSelector);
+                if (container && container.children.length > 1) {
+                    const cardToHide = container.lastElementChild;
+                    cardToHide.style.display = 'none';
+                    setTimeout(() => { cardToHide.style.display = ''; }, 2000); // reappear after 2s
+                }
+            }, 1000);
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loginModal.style.display = 'none'; 
+            enterpriseDashboardWrapper.style.display = 'none'; 
+            investorDashboardWrapper.style.display = 'none'; 
+            landingPageWrapper.style.display = 'block';
+            setLanguage(currentLanguage); // Apply the initial language on load
+        });
+    </script>
+</body>
+</html>
